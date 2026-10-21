@@ -21,7 +21,7 @@ function Rail() {
   return (
     <aside className="hidden w-64 shrink-0 flex-col gap-1 overflow-y-auto border-r border-rule p-4 md:flex">
       <div className="flex items-center gap-2 px-1 pb-3">
-        <img src={`${import.meta.env.BASE_URL}logo.svg`} alt="" className="size-7" />
+        <img src={`${import.meta.env.BASE_URL}logo.png`} alt="" className="size-7" />
         <span className="font-serif text-xl">DyNAMic</span>
       </div>
       <button onClick={add.open} className="btn-primary mb-2 w-full">

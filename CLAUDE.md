@@ -31,7 +31,7 @@
 3. 🤖 **Phase 2 — Nhắc việc** (xem checklist bên dưới). Cần bạn tạo bot Telegram qua @BotFather và (có thể) cấp quyền deploy Edge Function trên Supabase.
 4. Việc nhỏ còn lại của giao diện: bộ màu project (tím `#a855f7`, xanh lá `#22c55e` vẫn tươi, bạn bảo "chưa cần"); logo thật; nhập tiếng Việt tự nhiên, việc lặp lại (Phase 2).
 
-**Việc bạn làm song song (không chặn nhau):** tạo repo GitHub + bật Pages, thiết kế logo DyNAMic (Claude thay icon sau), đăng nhập thử bằng tài khoản thật (`npm run dev`), tạo bot Telegram qua @BotFather (cho Phase 2).
+**Việc bạn làm song song (không chặn nhau):** đăng nhập thử bằng tài khoản thật (`npm run dev`), tạo bot Telegram qua @BotFather (cho Phase 2).
 
 **Khi mở session mới:** đọc mục này, rồi `design/mockup-final.html` (nguồn sự thật cho giao diện) và plan `C:\Users\PC\.claude\plans\okay-t-i-mu-n-l-m-rippling-taco.md` (chi tiết kỹ thuật; lưu ý plan còn ghi navy/Source Serif, **đã được thay bằng nâu+teal / Fraunces** như bảng "Quyết định đã chốt" bên dưới).
 
@@ -51,7 +51,7 @@ Ký hiệu: `[x]` xong · `[ ]` chưa làm · 👤 = việc **bạn** tự làm 
 - [ ] 👤 Đăng nhập thử trên máy (`npm run dev` → http://localhost:5190)
 - [ ] 👤 Tạo repo GitHub + bật Pages (Source: GitHub Actions) → Claude push code khi bạn yêu cầu
 - [ ] 👤 Cài app lên iPhone (Safari → Chia sẻ → Thêm vào MH chính)
-- [ ] 👤 Thiết kế logo DyNAMic → Claude thay icon (`public/logo.svg` rồi chạy `npx pwa-assets-generator`)
+- [x] Logo thật của bạn (`DyNAMic logo2.png`, chữ N ruy-băng teal + chuông vàng) đã thành icon app (2026-10-21). Icon trong `public/` sinh từ file đó (bo góc trong suốt cho icon thường, đáy teal cho apple/maskable); không còn `logo.svg` / `pwa-assets.config.ts`
 
 ### Phase 1 — Quản lý việc (MVP) ✅
 - [x] Danh sách: Hôm nay · Sắp tới (14 ngày) · Inbox · Quá hạn · Tất cả · Đã xong · Tìm kiếm
@@ -84,7 +84,7 @@ Các bản mockup (mở bằng Chrome, giữ lại để so sánh): `design/mock
 - [x] **Màn Hôm nay**: câu chào theo giờ (cụm "buổi sáng/trưa/chiều/tối" bôi dạ quang), dòng tóm tắt + chuỗi ngày, thẻ "Nên làm trước" (Xong / Dời), tối đa 2 nhắc phụ, Quá hạn / Có giờ / Trong ngày, "Đã xong hôm nay" gập sẵn; vuốt phải = Xong, vuốt trái = Ngày mai / Xóa; dấu tích vẽ như nét bút. Logic ở `src/lib/insights.ts`, thao tác ở `src/lib/actions.ts`
 - [x] **Thêm việc + Chi tiết việc** thành bảng trượt: chip ngày / khu vực / ưu tiên, "Thêm chi tiết" gập sẵn, thêm liên tiếp không đóng bảng, vẫn hiểu `!3 #tag`; xóa có Hoàn tác (khôi phục cả subtask + tag)
 - [x] **Sắp tới** (dải ngày + nhóm theo ngày), **Dự án** (tìm kiếm không dấu, Inbox/Đã xong, khu vực + project có %), trang Inbox / Đã xong / Khu vực / Project, **Cài đặt**; cột trái cho máy tính; đã xóa các trang/thành phần cũ (Sidebar, TaskEditor, QuickAdd, ListPages cũ, bộ lọc cố định)
-- [x] Logo tạm đổi sang nâu + teal + vàng (`public/logo.svg`) cho khớp giao diện; icon PWA sinh lại. Vẫn chờ logo thật của bạn
+- [x] Logo tạm (đã thay bằng logo thật 2026-10-21)
 - [x] Kiểm tra: lint 0 cảnh báo, build qua (bản build không chứa code demo), duyệt ảnh ở 390×844 + 1280×800 sáng/tối, 11 kiểm tra thao tác chạm đều đạt (vuốt, Hoàn tác xong/xóa, Dời, thêm liên tiếp, đổi theme)
 - [x] Sửa lỗi phát hiện khi test: "Dời sang hôm nay" cho việc có giờ đã qua thì chuyển thành việc cả ngày hôm nay (trước đây vẫn bị coi là quá hạn)
 - [ ] 👤 Thử trên iPhone, xác nhận "đơn giản, dễ dùng"
@@ -142,6 +142,7 @@ Các bản mockup (mở bằng Chrome, giữ lại để so sánh): `design/mock
 - **2026-10-17** — Người dùng thấy mockup v1 giống NomNam → đổi sang phong cách Opennote (navy, serif, giấy kem, dùng chủ yếu trên điện thoại). Xong mockup v2, chờ duyệt.
 - **2026-10-17** — Vài vòng góp ý (chữ to, navy không hợp nền ngà, dạ quang phải bao trọn cụm từ, nền tối phải là teal chứ không đen): so sánh font (Fraunces thắng), so sánh màu 2 vòng, tham khảo Refero. **Chốt**: Fraunces + Inter, sáng = nâu + teal lagoon (H), tối = 2 màu teal (D4). Xong `design/mockup-final.html`; đổi xanh dương project sang đậm. Chưa code giao diện mới. Bước tiếp: duyệt mockup cuối → code "Nền tảng" (xem mục "Đang ở đâu").
 - **2026-10-17** — Người dùng duyệt mockup cuối ("code đi"). **Code xong toàn bộ giao diện mới** (nền tảng, Hôm nay, bảng trượt Thêm việc/Chi tiết, Sắp tới, Dự án, Cài đặt, cột trái desktop). Lint sạch, build qua, 11/11 kiểm tra thao tác chạm đạt; sửa 1 lỗi thật ("Dời sang hôm nay" cho việc có giờ đã qua) và để khay vuốt ẩn không nhận bàn phím (`inert`). Logo tạm đổi sang nâu + teal. Chưa thử với tài khoản thật / iPhone thật, chưa push. Bước tiếp: bạn dùng thử rồi báo chỗ cần chỉnh → Phase 2 (nhắc việc).
+- **2026-10-21** — Tạo repo GitHub, push lần đầu (Pages bằng GitHub Actions). Thay logo tạm bằng logo thật `DyNAMic logo2.png` (icon PWA, apple-touch, favicon, logo trong app), push lại.
 - *(Ghi chú sự cố nhỏ: mockup đầu từng bị ghi đè nhầm; đã khôi phục thành `mockup-v1-nomnam.html`. Từ nay mỗi phiên bản mockup là một file riêng, không ghi đè.)*
 
 ---
@@ -171,7 +172,7 @@ Nói chuyện bằng **tiếng Việt**; người dùng không phải dev → gi
 - Kiểm tra giao diện không cần Supabase thật: script Playwright với backend giả lập (chặn `https://demo.supabase.co`) + `.env.local` tạm (`VITE_SUPABASE_URL=https://demo.supabase.co`) — **xóa `.env.local` sau khi test**.
 
 ### Deploy
-Push `main` → `.github/workflows/deploy.yml` → GitHub Pages. **Chỉ push khi người dùng yêu cầu.** Repo chưa tạo (2026-10-17). GitHub: `hoanganhkiet14021996`; `gh` CLI chưa cài, push bằng `git` (Git Credential Manager).
+Push `main` → `.github/workflows/deploy.yml` → GitHub Pages. **Chỉ push khi người dùng yêu cầu.** Repo: https://github.com/hoanganhkiet14021996/DyNAMic (đã push 2026-10-21), app tại https://hoanganhkiet14021996.github.io/DyNAMic/. `gh` CLI chưa cài, push bằng `git` (Git Credential Manager).
 
 ### Môi trường
 Windows 11. Không ghi file nguồn bằng PowerShell `Set-Content`/`Out-File` (thêm BOM, hỏng UTF-8) — dùng Edit/Write.
