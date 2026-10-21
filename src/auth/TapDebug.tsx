@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 
 // TẠM THỜI: chẩn đoán lỗi "không chạm được ô nhập" khi mở từ màn hình chính iPhone.
 // Chỉ hiện ở chế độ app (standalone). Xóa file này khi đã tìm ra nguyên nhân.
-const BUILD = 'b6'
+const BUILD = 'b7'
 
 function describe(el: Element | null) {
   if (!el) return '∅'
@@ -19,7 +19,7 @@ export function TapDebug() {
 
   useEffect(() => {
     if (!standalone) return
-    const log = (s: string) => setLines((l) => [s, ...l].slice(0, 4))
+    const log = (s: string) => setLines((l) => [s, ...l].slice(0, 6))
     const onTouch = (e: TouchEvent) => {
       setCount((c) => c + 1)
       const t = e.touches[0] ?? e.changedTouches[0]
@@ -27,11 +27,14 @@ export function TapDebug() {
       const stack = document.elementsFromPoint(t.clientX, t.clientY).slice(0, 3).map(describe).join(' > ')
       log(`${e.type} ${Math.round(t.clientX)},${Math.round(t.clientY)} → ${stack}`)
     }
-    const onFocus = () => log(`focus → ${describe(document.activeElement)}`)
+    const onFocus = (e: FocusEvent) => log(`focus → ${describe(e.target as Element)}`)
+    const onBlur = (e: FocusEvent) => log(`blur ← ${describe(e.target as Element)}`)
     document.addEventListener('touchstart', onTouch, { capture: true, passive: true })
     document.addEventListener('touchend', onTouch, { capture: true, passive: true })
     document.addEventListener('focusin', onFocus, true)
+    document.addEventListener('focusout', onBlur, true)
     return () => {
+      document.removeEventListener('focusout', onBlur, true)
       document.removeEventListener('touchstart', onTouch, true)
       document.removeEventListener('touchend', onTouch, true)
       document.removeEventListener('focusin', onFocus, true)
@@ -46,6 +49,8 @@ export function TapDebug() {
         {BUILD} · chạm {count} · win {window.innerWidth}×{window.innerHeight} · vv {Math.round(vv?.height ?? 0)} top{' '}
         {Math.round(vv?.offsetTop ?? 0)} · {navigator.userAgent.match(/OS [\d_]+/)?.[0]}
       </div>
+      <input className="input my-2 font-sans text-sm" placeholder="Ô thử (không tự điền)" autoComplete="off" />
+      <textarea className="input mb-2 font-sans text-sm" rows={1} placeholder="Ô thử 2 (textarea)" />
       {lines.map((l, i) => (
         <div key={i} className="break-all">
           {l}
