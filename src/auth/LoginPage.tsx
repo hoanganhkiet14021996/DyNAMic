@@ -1,16 +1,23 @@
-import { useState, type FormEvent } from 'react'
+import { useRef, useState, type FormEvent } from 'react'
 import { PIN_LENGTH, signInWithPin, signUpWithPin } from '../lib/auth'
 
 /** Đăng nhập "tên + PIN 6 số" — dùng chung tài khoản với NAMONEY và NomNam. */
 export function LoginPage() {
-  const [name, setName] = useState('')
-  const [pin, setPin] = useState('')
+  const pinRef = useRef<HTMLInputElement>(null)
   const [mode, setMode] = useState<'signin' | 'signup'>('signin')
   const [msg, setMsg] = useState<string | null>(null)
   const [busy, setBusy] = useState(false)
 
-  async function submit(e: FormEvent) {
+  async function submit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
+    // Đọc thẳng từ ô nhập (không qua state) vì iPhone tự điền mật khẩu đã lưu mà React có thể không biết
+    const form = new FormData(e.currentTarget)
+    const name = String(form.get('name') ?? '')
+    const pin = String(form.get('pin') ?? '').replace(/\D/g, '')
+    if (pin.length !== PIN_LENGTH) {
+      setMsg(`Mã PIN gồm ${PIN_LENGTH} số`)
+      return
+    }
     setBusy(true)
     setMsg(null)
     try {
@@ -18,7 +25,7 @@ export function LoginPage() {
       else await signUpWithPin(name, pin)
     } catch (err) {
       setMsg((err as Error).message)
-      setPin('')
+      if (pinRef.current) pinRef.current.value = ''
     } finally {
       setBusy(false)
     }
@@ -36,15 +43,16 @@ export function LoginPage() {
         </div>
         <input
           className="input"
+          name="name"
           placeholder="Tên đăng nhập"
           autoComplete="username"
           autoCapitalize="none"
           autoCorrect="off"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
           required
         />
         <input
+          ref={pinRef}
+          name="pin"
           className="input text-center tracking-[0.5em]"
           type="password"
           inputMode="numeric"
@@ -52,11 +60,12 @@ export function LoginPage() {
           maxLength={PIN_LENGTH}
           placeholder={`Mã PIN ${PIN_LENGTH} số`}
           autoComplete={mode === 'signin' ? 'current-password' : 'new-password'}
-          value={pin}
-          onChange={(e) => setPin(e.target.value.replace(/\D/g, ''))}
+          onInput={(e) => {
+            e.currentTarget.value = e.currentTarget.value.replace(/\D/g, '')
+          }}
           required
         />
-        <button className="btn-primary h-12 w-full" disabled={busy || pin.length !== PIN_LENGTH}>
+        <button className="btn-primary h-12 w-full" disabled={busy}>
           {busy ? 'Đang xử lý…' : mode === 'signin' ? 'Đăng nhập' : 'Tạo tài khoản'}
         </button>
         {msg && <p className="text-center text-sm text-oxblood">{msg}</p>}

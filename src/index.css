@@ -141,6 +141,13 @@ textarea {
 @utility input {
   @apply w-full rounded-[10px] border border-rule2 bg-canvas px-3 py-2.5 text-base text-ink outline-none placeholder:text-cap focus:border-brand;
 }
+/* iPhone tự điền tên/PIN đã lưu: giữ đúng màu của giao diện thay vì nền vàng/xanh mặc định */
+.input:-webkit-autofill {
+  -webkit-text-fill-color: var(--ink);
+  box-shadow: 0 0 0 1000px var(--canvas) inset;
+  caret-color: var(--ink);
+}
+
 @utility btn {
   @apply inline-flex min-h-11 items-center justify-center gap-1.5 rounded-[10px] px-4 text-sm font-semibold transition-transform active:scale-[0.97] disabled:opacity-50;
 }

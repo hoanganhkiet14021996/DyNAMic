@@ -17,8 +17,8 @@ self.addEventListener('push', (event) => {
   event.waitUntil(
     self.registration.showNotification(data.title ?? 'DyNAMic', {
       body: data.body ?? '',
-      icon: 'pwa-192x192.png',
-      badge: 'pwa-64x64.png',
+      icon: 'pwa-192-v3.png',
+      badge: 'pwa-64-v3.png',
       tag: data.tag ?? data.taskId,
       data: { taskId: data.taskId },
     }),
