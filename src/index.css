@@ -99,7 +99,6 @@ body,
 body {
   @apply bg-canvas text-ink font-sans antialiased;
   -webkit-tap-highlight-color: transparent;
-  overscroll-behavior-y: none;
 }
 
 button,

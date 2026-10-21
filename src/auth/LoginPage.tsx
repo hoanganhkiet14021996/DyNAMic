@@ -32,7 +32,7 @@ export function LoginPage() {
   }
 
   return (
-    <div className="pt-safe flex min-h-full items-center justify-center p-4">
+    <div className="pt-safe flex min-h-dvh items-center justify-center p-4">
       <form onSubmit={submit} className="w-full max-w-sm space-y-4">
         <div className="mb-6 text-center">
           <img src={`${import.meta.env.BASE_URL}logo.png`} alt="" className="mx-auto mb-3 h-16 w-16" />
