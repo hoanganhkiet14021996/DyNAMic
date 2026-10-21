@@ -143,6 +143,7 @@ Các bản mockup (mở bằng Chrome, giữ lại để so sánh): `design/mock
 - **2026-10-17** — Vài vòng góp ý (chữ to, navy không hợp nền ngà, dạ quang phải bao trọn cụm từ, nền tối phải là teal chứ không đen): so sánh font (Fraunces thắng), so sánh màu 2 vòng, tham khảo Refero. **Chốt**: Fraunces + Inter, sáng = nâu + teal lagoon (H), tối = 2 màu teal (D4). Xong `design/mockup-final.html`; đổi xanh dương project sang đậm. Chưa code giao diện mới. Bước tiếp: duyệt mockup cuối → code "Nền tảng" (xem mục "Đang ở đâu").
 - **2026-10-17** — Người dùng duyệt mockup cuối ("code đi"). **Code xong toàn bộ giao diện mới** (nền tảng, Hôm nay, bảng trượt Thêm việc/Chi tiết, Sắp tới, Dự án, Cài đặt, cột trái desktop). Lint sạch, build qua, 11/11 kiểm tra thao tác chạm đạt; sửa 1 lỗi thật ("Dời sang hôm nay" cho việc có giờ đã qua) và để khay vuốt ẩn không nhận bàn phím (`inert`). Logo tạm đổi sang nâu + teal. Chưa thử với tài khoản thật / iPhone thật, chưa push. Bước tiếp: bạn dùng thử rồi báo chỗ cần chỉnh → Phase 2 (nhắc việc).
 - **2026-10-21** — Tạo repo GitHub, push lần đầu (Pages bằng GitHub Actions). Thay logo tạm bằng logo thật `DyNAMic logo2.png` (icon PWA, apple-touch, favicon, logo trong app), push lại.
+- **2026-10-22** — Sửa icon (tràn viền, không còn viền trắng; đổi tên file `-v3` để iPhone tải lại). Trang đăng nhập: đọc tên/PIN thẳng từ ô (iPhone tự điền), màu ô tự điền theo theme, thanh trạng thái `default` như NomNam, `min-h-dvh`. Sự cố "chạm ô đăng nhập không hiện bàn phím" khi mở từ màn hình chính: chẩn đoán cho thấy ô có nhận focus, NomNam cũng bị → **lỗi iOS 18.1.1, khởi động lại iPhone là hết**. Đã gỡ khung chẩn đoán. Người dùng bắt đầu dùng thử trên iPhone.
 - *(Ghi chú sự cố nhỏ: mockup đầu từng bị ghi đè nhầm; đã khôi phục thành `mockup-v1-nomnam.html`. Từ nay mỗi phiên bản mockup là một file riêng, không ghi đè.)*
 
 ---
@@ -175,4 +176,5 @@ Nói chuyện bằng **tiếng Việt**; người dùng không phải dev → gi
 Push `main` → `.github/workflows/deploy.yml` → GitHub Pages. **Chỉ push khi người dùng yêu cầu.** Repo: https://github.com/hoanganhkiet14021996/DyNAMic (đã push 2026-10-21), app tại https://hoanganhkiet14021996.github.io/DyNAMic/. `gh` CLI chưa cài, push bằng `git` (Git Credential Manager).
 
 ### Môi trường
+iPhone người dùng: iOS 18.1.1. Nếu web app trên màn hình chính không hiện bàn phím (cả NomNam cũng bị) → khởi động lại iPhone, không phải lỗi code.
 Windows 11. Không ghi file nguồn bằng PowerShell `Set-Content`/`Out-File` (thêm BOM, hỏng UTF-8) — dùng Edit/Write.

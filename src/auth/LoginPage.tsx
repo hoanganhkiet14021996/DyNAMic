@@ -1,6 +1,5 @@
 import { useRef, useState, type FormEvent } from 'react'
 import { PIN_LENGTH, signInWithPin, signUpWithPin } from '../lib/auth'
-import { TapDebug } from './TapDebug'
 
 /** Đăng nhập "tên + PIN 6 số" — dùng chung tài khoản với NAMONEY và NomNam. */
 export function LoginPage() {
@@ -45,7 +44,6 @@ export function LoginPage() {
         <input
           className="input"
           name="name"
-          onTouchEnd={(e) => e.currentTarget.focus()}
           placeholder="Tên đăng nhập"
           autoComplete="username"
           autoCapitalize="none"
@@ -55,7 +53,6 @@ export function LoginPage() {
         <input
           ref={pinRef}
           name="pin"
-          onTouchEnd={(e) => e.currentTarget.focus()}
           className="input text-center tracking-[0.5em]"
           type="password"
           inputMode="numeric"
@@ -82,7 +79,6 @@ export function LoginPage() {
         >
           {mode === 'signin' ? 'Chưa có tài khoản? Tạo mới' : 'Đã có tài khoản? Đăng nhập'}
         </button>
-        <TapDebug />
       </form>
     </div>
   )
