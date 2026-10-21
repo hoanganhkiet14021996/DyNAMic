@@ -18,7 +18,7 @@ export default defineConfig({
       filename: 'sw.ts',
       registerType: 'autoUpdate',
       injectRegister: 'auto',
-      includeAssets: ['favicon.ico', 'apple-touch-icon-180x180.png'],
+      includeAssets: ['favicon-v2.ico', 'apple-touch-icon-v2.png'],
       manifest: {
         name: 'DyNAMic',
         short_name: 'DyNAMic',
