@@ -1,0 +1,358 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>DyNAMic – Mockup bản cuối (Fraunces · nâu+teal · 2 màu teal)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&display=swap&subset=vietnamese" rel="stylesheet" />
+<style>
+  /* Ngôn ngữ thiết kế: Opennote (giấy kem, mực, không bóng) chỉnh cho điện thoại. Navy là màu nhấn. */
+  :root {
+    --canvas: #fbf6e9; --alt: #f4eedd; --ink: #26251e; --body: #4a483f; --cap: #6b685e;
+    --rule: #e7dfcb; --rule2: #d6cbb2;
+    --navy: #4a2c0a; --on-navy: #fffdf8; --navy-soft: #a8957f; --amb: #8a5a00;
+    --teal: #0c4243; --on-teal: #fffdf8;
+    --f-bg: #0c4243; --f-text: #fffdf8; --f-label: #8fe0d4; --f-p: #cfeeea; --f-line: #3f7f7d; --gs-bg: #fffdf8; --gs-fg: #0c4243;
+    --oxblood: #5e0831; --sepia: #4a2c0a; --forest: #0c3b1a; --hl: #e8bd3a;
+    --stage: #e6dfcd; --frame: #17161a; --blue: #1e4f8f;
+  }
+  .dark {
+    --canvas: #0f4a4d; --alt: #135356; --ink: #ffffff; --body: #ffffff; --cap: #a8d9d3;
+    --rule: #1f6165; --rule2: #2f787c;
+    --navy: #a8f0e6; --on-navy: #0f4a4d; --navy-soft: #5aa8a2; --amb: #fbbf6a;
+    --teal: #a8f0e6; --on-teal: #0f4a4d;
+    --f-bg: #a8f0e6; --f-text: #0f4a4d; --f-label: #1d6b6b; --f-p: #1d5f60; --f-line: #0f4a4d; --gs-bg: #0f4a4d; --gs-fg: #e6fffb;
+    --oxblood: #ff9bb7; --sepia: #fbbf6a; --forest: #6ee7a8; --hl: #ffc934;
+    --stage: #083336; --frame: #062a2c; --blue: #7db4ff;
+  }
+  * { box-sizing: border-box; margin: 0; }
+  body { font-family: 'Inter', system-ui, sans-serif; background: var(--stage); color: var(--ink); padding: 24px 16px 60px; -webkit-font-smoothing: antialiased; }
+  .serif { font-family: 'Fraunces', Georgia, serif; font-weight: 400; }
+  .top { max-width: 1400px; margin: 0 auto 28px; display: flex; flex-wrap: wrap; gap: 12px 24px; align-items: center; justify-content: space-between; }
+  .top h1 { font: 400 28px 'Fraunces', serif; }
+  .top p { color: var(--cap); font-size: 13.5px; margin-top: 4px; max-width: 640px; line-height: 1.5; }
+  .toggle { border: 1px solid var(--rule2); background: var(--canvas); color: var(--ink); border-radius: 10px; padding: 10px 16px; font: 600 13px 'Inter'; cursor: pointer; }
+  .grid { max-width: 1500px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 36px 28px; justify-content: center; }
+  figure { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+  figcaption { font-size: 13px; color: var(--cap); text-align: center; max-width: 340px; line-height: 1.5; }
+  figcaption b { color: var(--ink); display: block; font: 500 17px 'Fraunces', serif; margin-bottom: 2px; }
+
+  .phone { width: 390px; height: 800px; border-radius: 44px; border: 9px solid var(--frame); background: var(--canvas); position: relative; overflow: hidden; }
+  .screen { height: 100%; position: relative; display: flex; flex-direction: column; overflow: hidden; }
+  .status { height: 44px; padding: 14px 26px 0; display: flex; justify-content: space-between; font-size: 13px; font-weight: 600; flex-shrink: 0; }
+  .body { flex: 1; overflow: hidden; padding-bottom: 96px; }
+
+  /* tiêu đề trang */
+  .hd { padding: 6px 20px 12px; }
+  .hello { font-size: 11.5px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--cap); }
+  .hl { background: linear-gradient(transparent 55%, color-mix(in srgb, var(--hl) 70%, transparent) 55% 92%, transparent 92%); padding: 0 2px; }
+  .dark .hl { background: linear-gradient(transparent 55%, color-mix(in srgb, var(--hl) 38%, transparent) 55% 92%, transparent 92%); }
+  .hd h2 { font: 400 20px/1.25 'Fraunces', serif; margin-top: 3px; }
+  .hd h2.greet { font-size: 16px; font-weight: 500; margin-top: 2px; }
+  .label { font-size: 11.5px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--cap); }
+
+  /* tóm tắt một dòng */
+  .sumline { padding: 0 20px 14px; display: flex; align-items: center; gap: 12px; }
+  .sumline .n { font: 400 20px 'Fraunces', serif; line-height: 1; white-space: nowrap; }
+  .sumline .n small { font: 500 12px 'Inter'; color: var(--cap); margin-left: 4px; }
+  .line { flex: 1; height: 6px; background: var(--rule); border-radius: 99px; overflow: hidden; } .line i { display: block; height: 100%; background: var(--teal); border-radius: 99px; }
+  .streak { font-size: 12px; font-weight: 600; color: var(--teal); white-space: nowrap; }
+
+  /* thẻ navy duy nhất */
+  .focus { margin: 0 16px; background: var(--f-bg); color: var(--f-text); border-radius: 10px; padding: 14px 16px 14px; }
+  .focus .label { color: var(--f-label); }
+  .focus h3 { font: 400 19px/1.3 'Fraunces', serif; margin-top: 6px; text-wrap: balance; }
+  .focus p { font-size: 12.5px; color: var(--f-p); margin-top: 4px; }
+  .focus .row { display: flex; gap: 8px; margin-top: 12px; }
+  .gbtn { flex: 1; height: 42px; border-radius: 10px; border: 1px solid var(--f-line); color: var(--f-text); display: grid; place-items: center; font-size: 13.5px; font-weight: 600; }
+  .gbtn.solid { background: var(--gs-bg); color: var(--gs-fg); border-color: var(--gs-bg); }
+
+  .nudge { display: flex; gap: 10px; align-items: center; padding: 8px 20px; font-size: 13px; color: var(--body); }
+  .nudge b { color: var(--ink); font-weight: 600; } .nudge .ic { width: 20px; text-align: center; }
+  .nudges { padding-top: 6px; }
+
+  /* dòng việc kiểu giấy kẻ */
+  .sec { padding: 16px 20px 6px; }
+  .task { display: flex; gap: 14px; align-items: flex-start; padding: 11px 20px; min-height: 54px; border-top: 1px solid var(--rule); }
+  .sec + .task { border-top: 1px solid var(--rule); }
+  .chk { width: 24px; height: 24px; border-radius: 50%; border: 2px solid var(--navy-soft); flex-shrink: 0; margin-top: 1px; display: grid; place-items: center; color: #fff; }
+  .chk.p3 { border-color: var(--oxblood); } .chk.p2 { border-color: var(--amb); } .chk.p1 { border-color: var(--navy-soft); }
+  .chk.done { background: var(--forest); border-color: var(--forest); color: var(--canvas); }
+  .task .m { flex: 1; min-width: 0; }
+  .task .n { font-size: 15px; font-weight: 500; line-height: 1.35; }
+  .task .s { display: flex; flex-wrap: wrap; gap: 3px 12px; font-size: 12px; font-weight: 500; color: var(--cap); margin-top: 3px; align-items: center; }
+  .late { color: var(--oxblood); font-weight: 600; }
+  .pj { display: inline-flex; align-items: center; gap: 6px; } .pj::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--c); }
+  .time { font-size: 13px; font-weight: 600; color: var(--body); margin-top: 2px; font-variant-numeric: tabular-nums; }
+  .tag { font-size: 11px; font-weight: 600; color: var(--teal); border: 1px solid var(--navy-soft); padding: 1px 8px; border-radius: 99px; }
+  .fold { padding: 14px 20px; font-size: 13px; font-weight: 500; color: var(--cap); border-top: 1px solid var(--rule); }
+
+  /* thanh dưới: icon + chữ, tab chọn = gạch trên màu navy */
+  .nav { position: absolute; left: 0; right: 0; bottom: 0; background: var(--canvas); border-top: 1px solid var(--rule); padding: 0 8px 22px; display: flex; align-items: flex-end; z-index: 5; }
+  .nav > div { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px; padding: 10px 0 4px; font-size: 11.5px; font-weight: 500; color: var(--cap); position: relative; }
+  .nav > div svg { width: 22px; height: 22px; }
+  .nav .act { color: var(--teal); font-weight: 600; } .nav .act::before { content: ''; position: absolute; top: -1px; width: 28px; height: 2px; background: var(--teal); border-radius: 2px; }
+  .fab { width: 54px; height: 54px; border-radius: 14px; background: var(--navy); color: var(--on-navy); display: grid; place-items: center; margin: -24px auto 6px; border: 4px solid var(--canvas); box-sizing: content-box; }
+  .nav .fw { padding: 0; } .fab svg { width: 26px; height: 26px; }
+
+  /* bảng trượt */
+  .dim { position: absolute; inset: 0; background: rgba(0,0,0,.42); z-index: 10; }
+  .sheet { position: absolute; left: 0; right: 0; bottom: 0; background: var(--canvas); border-radius: 16px 16px 0 0; z-index: 11; padding: 10px 18px 28px; border-top: 1px solid var(--rule2); }
+  .grab { width: 40px; height: 4px; border-radius: 99px; background: var(--rule2); margin: 0 auto 16px; }
+  .inp { border: 1.5px solid var(--navy); border-radius: 10px; padding: 12px 14px; font-size: 16px; font-weight: 500; min-height: 50px; display: flex; align-items: center; }
+  .caret { width: 2px; height: 22px; background: var(--navy); margin-left: 1px; animation: bl 1s steps(1) infinite; } @keyframes bl { 50% { opacity: 0; } }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+  .chip { font-size: 13.5px; font-weight: 500; padding: 9px 13px; border-radius: 10px; border: 1px solid var(--rule2); color: var(--ink); display: inline-flex; align-items: center; gap: 6px; min-height: 40px; }
+  .chip.sel { background: var(--navy); border-color: var(--navy); color: var(--on-navy); font-weight: 600; }
+  .more { margin-top: 14px; font-size: 13.5px; font-weight: 500; color: var(--cap); }
+  .added { margin-top: 12px; font-size: 12.5px; color: var(--forest); font-weight: 600; }
+  .added u { color: var(--teal); }
+  .btn { margin-top: 14px; height: 48px; border-radius: 10px; background: var(--navy); color: var(--on-navy); font-weight: 600; font-size: 15px; display: grid; place-items: center; }
+
+  .tt { display: flex; gap: 13px; align-items: flex-start; } .tt .chk { width: 28px; height: 28px; margin-top: 4px; }
+  .tt h3 { font: 400 20px/1.3 'Fraunces', serif; }
+  .prog { margin-top: 18px; } .prog .l { display: flex; justify-content: space-between; margin-bottom: 7px; }
+  .sub { padding: 9px 0; display: flex; gap: 12px; align-items: center; font-size: 14.5px; font-weight: 500; border-top: 1px solid var(--rule); }
+  .sub .chk { width: 22px; height: 22px; } .sub.d { color: var(--cap); text-decoration: line-through; }
+  .del { color: var(--oxblood); font-weight: 600; }
+
+  /* sắp tới / dự án */
+  .strip { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; padding: 0 12px 6px; }
+  .strip div { display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 7px 0 6px; border-radius: 10px; font-size: 12px; font-weight: 500; color: var(--cap); }
+  .strip b { font-size: 15px; color: var(--ink); font-weight: 600; }
+  .strip .on { background: var(--teal); color: var(--on-teal); } .strip .on b { color: var(--on-teal); }
+  .dot { width: 5px; height: 5px; border-radius: 50%; background: var(--cap); } .dot.none { background: transparent; } .on .dot { background: var(--on-teal); }
+  .dayh { padding: 16px 20px 6px; display: flex; justify-content: space-between; align-items: baseline; }
+  .dayh span:first-child { font: 400 16px 'Fraunces', serif; } .dayh span:last-child { font-size: 12px; color: var(--cap); }
+  .search { margin: 0 20px; border: 1px solid var(--rule2); border-radius: 10px; padding: 11px 14px; display: flex; gap: 10px; align-items: center; color: var(--cap); font-size: 14px; }
+  .links { margin: 12px 20px 0; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .link { border: 1px solid var(--rule); border-radius: 10px; padding: 13px 14px; font-size: 14px; font-weight: 600; display: flex; justify-content: space-between; align-items: center; } .link small { color: var(--cap); font-size: 14px; }
+  .area { margin: 20px 20px 0; }
+  .area .t { display: flex; align-items: baseline; justify-content: space-between; border-bottom: 1px solid var(--ink); padding-bottom: 6px; }
+  .area h4 { font: 400 18px 'Fraunces', serif; } .area .pct { font: 400 17px 'Fraunces', serif; color: var(--teal); }
+  .proj { padding: 12px 0 2px; } .proj .r { display: flex; justify-content: space-between; font-size: 14px; font-weight: 500; margin-bottom: 7px; } .proj .r span:last-child { font-size: 12px; color: var(--cap); }
+  .proj .line i { background: var(--c); }
+
+  /* trạng thái trống */
+  .empty { text-align: center; padding: 50px 30px 0; }
+  .empty svg { width: 150px; height: 130px; }
+  .empty h3 { font: 400 22px/1.3 'Fraunces', serif; margin-top: 14px; }
+  .empty p { color: var(--body); font-size: 14px; margin-top: 8px; line-height: 1.5; }
+  .empty .ghost { display: inline-grid; place-items: center; margin-top: 20px; height: 44px; padding: 0 18px; border: 1px solid var(--rule2); border-radius: 10px; font-weight: 600; font-size: 14px; }
+
+  .note { max-width: 1100px; margin: 40px auto 0; border: 1px solid var(--rule); border-radius: 10px; padding: 22px 26px; font-size: 14.5px; line-height: 1.65; background: var(--canvas); }
+  .note h3 { font: 400 21px 'Fraunces', serif; margin-bottom: 8px; } .note li { margin: 4px 0 4px 18px; }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute"><defs>
+  <symbol id="home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></symbol>
+  <symbol id="cal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M8 3v4M16 3v4M3 10h18"/></symbol>
+  <symbol id="fold" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></symbol>
+  <symbol id="gear" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/></symbol>
+  <symbol id="plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="tick" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></symbol>
+  <symbol id="search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></symbol>
+</defs></svg>
+
+<div class="top">
+  <div>
+    <h1>DyNAMic – Mockup bản cuối</h1>
+    <p>Font Fraunces + Inter. <b>Sáng:</b> giấy ngà, nút nâu đậm, thẻ và điểm xuyết teal lagoon (phương án H). <b>Tối:</b> chỉ hai màu teal, nền teal đậm và teal nhạt làm điểm nhấn, chữ trắng (phương án D4). Bấm nút bên phải để đổi sáng / tối.</p>
+  </div>
+  <button class="toggle" onclick="document.body.classList.toggle('dark'); this.textContent = document.body.classList.contains('dark') ? '☀️ Xem bản sáng' : '🌙 Xem bản tối'">🌙 Xem bản tối</button>
+</div>
+
+<div class="grid">
+
+<!-- 1. HÔM NAY -->
+<figure>
+<div class="phone"><div class="screen">
+  <div class="status"><span>9:12</span><span>●●● 5G ▮</span></div>
+  <div class="body">
+    <div class="hd"><div class="hello">Thứ Bảy, 17/10</div><h2 class="greet">Chào <span class="hl">buổi sáng</span>, Kiệt</h2></div>
+    <div class="sumline"><div class="n">3/7<small>việc xong</small></div><div class="line"><i style="width:43%"></i></div><div class="streak">🔥 5 ngày</div></div>
+    <div class="focus">
+      <div class="label">Nên làm trước</div>
+      <h3>Gửi báo cáo doanh thu tháng 9</h3>
+      <p>Quá hạn từ hôm qua 17:00 · Báo cáo Q4</p>
+      <div class="row"><div class="gbtn solid">Xong</div><div class="gbtn">Dời sang hôm nay</div></div>
+    </div>
+    <div class="nudges">
+      <div class="nudge"><span class="ic">⏰</span><span><b>09:30 Họp team</b> · còn 18 phút</span></div>
+      <div class="nudge"><span class="ic">📥</span><span>Inbox có <b>3 việc</b> chưa phân loại</span></div>
+    </div>
+    <div class="sec label">Có giờ</div>
+    <div class="task"><div class="chk p2"></div><div class="m"><div class="n">Họp team sprint planning</div><div class="s"><span class="tag">Đang làm</span><span class="pj" style="--c:#6366f1">Công việc</span></div></div><div class="time">09:30</div></div>
+    <div class="task"><div class="chk p2"></div><div class="m"><div class="n">Hoàn thiện slide trình bày</div><div class="s"><span>▸ 1/3</span><span class="pj" style="--c:var(--blue)">Báo cáo Q4</span></div></div><div class="time">15:00</div></div>
+    <div class="sec label">Trong ngày</div>
+    <div class="task"><div class="chk"></div><div class="m"><div class="n">Mua quà sinh nhật mẹ</div><div class="s"><span class="pj" style="--c:#f59e0b">Cá nhân</span></div></div></div>
+    <div class="fold">Đã xong hôm nay (3) ▸</div>
+  </div>
+  <div class="nav">
+    <div class="act"><svg><use href="#home"/></svg><span>Hôm nay</span></div>
+    <div><svg><use href="#cal"/></svg><span>Sắp tới</span></div>
+    <div class="fw"><div class="fab"><svg><use href="#plus"/></svg></div></div>
+    <div><svg><use href="#fold"/></svg><span>Dự án</span></div>
+    <div><svg><use href="#gear"/></svg><span>Cài đặt</span></div>
+  </div>
+</div></div>
+<figcaption><b>1 · Hôm nay</b>Dòng tóm tắt, thẻ “Nên làm trước” (teal đậm ở bản sáng, teal nhạt ở bản tối), tối đa 2 nhắc phụ.</figcaption>
+</figure>
+
+<!-- 2. THÊM VIỆC -->
+<figure>
+<div class="phone"><div class="screen">
+  <div class="status"><span>9:12</span><span>●●● 5G ▮</span></div>
+  <div class="body" style="opacity:.55">
+    <div class="hd"><div class="hello">Thứ Bảy, 17/10</div><h2 class="greet">Chào buổi sáng, Kiệt</h2></div>
+    <div class="sec label">Có giờ</div>
+    <div class="task"><div class="chk p2"></div><div class="m"><div class="n">Họp team sprint planning</div></div><div class="time">09:30</div></div>
+    <div class="task"><div class="chk p2"></div><div class="m"><div class="n">Hoàn thiện slide trình bày</div></div><div class="time">15:00</div></div>
+  </div>
+  <div class="dim"></div>
+  <div class="sheet">
+    <div class="grab"></div>
+    <div class="inp">Gọi khách hàng ABC<span class="caret"></span></div>
+    <div class="chips"><span class="chip sel">Hôm nay</span><span class="chip">Ngày mai</span><span class="chip">Tuần sau</span><span class="chip">📅 Chọn…</span></div>
+    <div class="chips"><span class="chip sel">💼 Công việc</span><span class="chip">🏠 Cá nhân</span><span class="chip" style="color:var(--oxblood);border-color:var(--oxblood)">⚑ Ưu tiên cao</span></div>
+    <div class="more">▸ Thêm chi tiết <span style="font-weight:400">· giờ, project, ghi chú</span></div>
+    <div class="added">✓ Đã thêm “Mua quà sinh nhật mẹ” · <u>Hoàn tác</u></div>
+    <div class="btn">Thêm việc</div>
+  </div>
+</div></div>
+<figcaption><b>2 · Thêm việc</b>Một ô gõ + vài chip, bàn phím mở sẵn, nút “Thêm” ở đáy cho ngón cái. Thêm xong bảng không đóng để thêm tiếp.</figcaption>
+</figure>
+
+<!-- 3. CHI TIẾT -->
+<figure>
+<div class="phone"><div class="screen">
+  <div class="status"><span>9:12</span><span>●●● 5G ▮</span></div>
+  <div class="body" style="opacity:.55">
+    <div class="hd"><div class="hello">Thứ Bảy, 17/10</div><h2 class="greet">Chào buổi sáng, Kiệt</h2></div>
+    <div class="sec label">Có giờ</div>
+    <div class="task"><div class="chk p2"></div><div class="m"><div class="n">Họp team sprint planning</div></div><div class="time">09:30</div></div>
+  </div>
+  <div class="dim"></div>
+  <div class="sheet" style="padding-bottom:24px">
+    <div class="grab"></div>
+    <div class="tt"><div class="chk p2"></div><h3>Hoàn thiện slide trình bày</h3></div>
+    <div class="chips" style="margin-top:14px"><span class="chip sel">📅 Hôm nay 15:00</span><span class="chip">💼 Công việc</span><span class="chip" style="color:var(--amb);border-color:var(--amb)">⚑ Trung bình</span></div>
+    <div class="prog"><div class="l"><span class="label">Tiến độ</span><span class="serif" style="font-size:19px;color:var(--teal)">33%</span></div><div class="line" style="height:6px"><i style="width:33%"></i></div></div>
+    <div style="margin-top:10px">
+      <div class="sub d"><div class="chk done"><svg width="12" height="12"><use href="#tick"/></svg></div>Thu thập số liệu</div>
+      <div class="sub"><div class="chk"></div>Vẽ biểu đồ</div>
+      <div class="sub"><div class="chk"></div>Viết kết luận</div>
+      <div class="sub" style="color:var(--cap)"><svg width="22" height="22"><use href="#plus"/></svg>Thêm subtask</div>
+    </div>
+    <div class="more" style="border-top:1px solid var(--rule);padding-top:14px;margin-top:0">▸ Thêm chi tiết <span style="font-weight:400">· project, tag, ghi chú</span></div>
+    <div style="margin-top:14px;display:flex;justify-content:space-between;font-size:13px;color:var(--cap)"><span>Tạo hôm qua 14:20</span><span class="del">Xóa</span></div>
+  </div>
+</div></div>
+<figcaption><b>3 · Chi tiết việc</b>Tên việc bằng chữ serif, ba chip, tiến độ, subtask. Phần nâng cao gập sẵn. Xóa có Hoàn tác.</figcaption>
+</figure>
+
+<!-- 4. SẮP TỚI -->
+<figure>
+<div class="phone"><div class="screen">
+  <div class="status"><span>9:12</span><span>●●● 5G ▮</span></div>
+  <div class="body">
+    <div class="hd"><div class="hello">14 ngày tới</div><h2>Sắp tới</h2></div>
+    <div class="strip">
+      <div><span>T2</span><b>19</b><i class="dot"></i></div><div><span>T3</span><b>20</b><i class="dot none"></i></div><div class="on"><span>T4</span><b>21</b><i class="dot"></i></div><div><span>T5</span><b>22</b><i class="dot"></i></div><div><span>T6</span><b>23</b><i class="dot none"></i></div><div><span>T7</span><b>24</b><i class="dot none"></i></div><div><span>CN</span><b>25</b><i class="dot none"></i></div>
+    </div>
+    <div class="dayh"><span>Ngày mai</span><span>CN 18/10 · 2 việc</span></div>
+    <div class="task"><div class="chk p2"></div><div class="m"><div class="n">Đặt vé máy bay</div><div class="s"><span class="pj" style="--c:#22c55e">Du lịch Đà Lạt</span></div></div><div class="time">20:00</div></div>
+    <div class="task"><div class="chk"></div><div class="m"><div class="n">Đặt phòng khách sạn</div><div class="s"><span>40%</span><span class="pj" style="--c:#22c55e">Du lịch Đà Lạt</span></div></div></div>
+    <div class="dayh"><span>Thứ Hai</span><span>19/10 · 1 việc</span></div>
+    <div class="task"><div class="chk p3"></div><div class="m"><div class="n">Nộp báo cáo quý cho sếp</div><div class="s"><span>▸ 0/4</span><span class="pj" style="--c:#6366f1">Công việc</span></div></div><div class="time">10:00</div></div>
+    <div class="dayh"><span>Thứ Tư</span><span>21/10 · 1 việc</span></div>
+    <div class="task"><div class="chk"></div><div class="m"><div class="n">Khám sức khỏe định kỳ</div><div class="s"><span class="pj" style="--c:#f59e0b">Cá nhân</span></div></div><div class="time">08:00</div></div>
+    <div class="dayh"><span>Chưa có deadline</span><span>2 việc</span></div>
+    <div class="task"><div class="chk"></div><div class="m"><div class="n">Ý tưởng: học tiếng Nhật</div></div></div>
+  </div>
+  <div class="nav">
+    <div><svg><use href="#home"/></svg><span>Hôm nay</span></div>
+    <div class="act"><svg><use href="#cal"/></svg><span>Sắp tới</span></div>
+    <div class="fw"><div class="fab"><svg><use href="#plus"/></svg></div></div>
+    <div><svg><use href="#fold"/></svg><span>Dự án</span></div>
+    <div><svg><use href="#gear"/></svg><span>Cài đặt</span></div>
+  </div>
+</div></div>
+<figcaption><b>4 · Sắp tới</b>Dải tuần để nhảy ngày; việc nhóm theo ngày với nhãn chữ serif. Vuốt trái để dời hoặc xóa.</figcaption>
+</figure>
+
+<!-- 5. DỰ ÁN -->
+<figure>
+<div class="phone"><div class="screen">
+  <div class="status"><span>9:12</span><span>●●● 5G ▮</span></div>
+  <div class="body">
+    <div class="hd"><div class="hello">Mọi việc ở một chỗ</div><h2>Dự án</h2></div>
+    <div class="search"><svg width="18" height="18"><use href="#search"/></svg>Tìm việc… (gõ “hop” ra “họp”)</div>
+    <div class="links"><div class="link">Inbox <small>3</small></div><div class="link">Đã xong <small>12</small></div></div>
+    <div class="area">
+      <div class="t"><h4>💼 Công việc</h4><span class="pct">58%</span></div>
+      <div class="proj"><div class="r"><span class="pj" style="--c:var(--blue)">Báo cáo Q4</span><span>2/6 việc</span></div><div class="line" style="--c:var(--blue)"><i style="width:33%"></i></div></div>
+      <div class="proj"><div class="r"><span class="pj" style="--c:#a855f7">Website mới</span><span>8/10 việc</span></div><div class="line" style="--c:#a855f7"><i style="width:80%"></i></div></div>
+    </div>
+    <div class="area">
+      <div class="t"><h4>🏠 Cá nhân</h4><span class="pct">30%</span></div>
+      <div class="proj"><div class="r"><span class="pj" style="--c:#22c55e">Du lịch Đà Lạt</span><span>1/5 việc</span></div><div class="line" style="--c:#22c55e"><i style="width:20%"></i></div></div>
+    </div>
+    <div class="fold" style="border:0;text-align:center;margin-top:10px">+ Khu vực mới</div>
+  </div>
+  <div class="nav">
+    <div><svg><use href="#home"/></svg><span>Hôm nay</span></div>
+    <div><svg><use href="#cal"/></svg><span>Sắp tới</span></div>
+    <div class="fw"><div class="fab"><svg><use href="#plus"/></svg></div></div>
+    <div class="act"><svg><use href="#fold"/></svg><span>Dự án</span></div>
+    <div><svg><use href="#gear"/></svg><span>Cài đặt</span></div>
+  </div>
+</div></div>
+<figcaption><b>5 · Dự án</b>Tìm kiếm, Inbox, Đã xong và các khu vực gom về một tab. Tên khu vực bằng chữ serif, gạch chân như đầu mục trong sổ.</figcaption>
+</figure>
+
+<!-- 6. TRỐNG -->
+<figure>
+<div class="phone"><div class="screen">
+  <div class="status"><span>9:12</span><span>●●● 5G ▮</span></div>
+  <div class="body">
+    <div class="hd"><div class="hello">Thứ Bảy, 17/10</div><h2 class="greet">Chào <span class="hl">buổi chiều</span>, Kiệt</h2></div>
+    <div class="sumline"><div class="n">7/7<small>việc xong</small></div><div class="line"><i style="width:100%;background:var(--forest)"></i></div><div class="streak">🔥 6 ngày</div></div>
+    <div class="empty">
+      <svg viewBox="0 0 150 130" fill="none" stroke="var(--ink)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="32" y="22" width="76" height="92" rx="6" transform="rotate(-4 70 68)"/>
+        <path d="M46 52l8 8 14-16" transform="rotate(-4 70 68)"/><path d="M46 82h44M46 96h30" transform="rotate(-4 70 68)"/>
+        <path d="M104 26l22 40-8 4-22-40z"/><path d="M96 30l8-4"/><path d="M118 70l-4 12 12-6"/>
+        <path d="M20 40l6 3M14 60h8M24 22l4 7" stroke-width="1.6"/>
+      </svg>
+      <h3><span class="hl">Xong hết rồi</span>!</h3>
+      <p>Hôm nay không còn việc nào. Nghỉ một chút, hoặc kéo một việc từ Sắp tới sang.</p>
+      <div class="ghost">Xem việc sắp tới</div>
+    </div>
+  </div>
+  <div class="nav">
+    <div class="act"><svg><use href="#home"/></svg><span>Hôm nay</span></div>
+    <div><svg><use href="#cal"/></svg><span>Sắp tới</span></div>
+    <div class="fw"><div class="fab"><svg><use href="#plus"/></svg></div></div>
+    <div><svg><use href="#fold"/></svg><span>Dự án</span></div>
+    <div><svg><use href="#gear"/></svg><span>Cài đặt</span></div>
+  </div>
+</div></div>
+<figcaption><b>6 · Xong hết</b>Hình vẽ nét tay chỉ xuất hiện ở trạng thái trống, kèm vệt dạ quang vàng. Danh sách bình thường luôn sạch.</figcaption>
+</figure>
+
+</div>
+
+<div class="note">
+  <h3>Chốt lần cuối trước khi code thật</h3>
+  <ul>
+    <li>Nút <b>+</b>, nút Thêm, chip đang chọn dùng <b>nâu</b> (sáng); tiến độ, tab, chuỗi ngày, thẻ nổi dùng <b>teal</b>.</li>
+    <li>Bản tối: thẻ “Nên làm trước” là mảng teal nhạt. Nếu thấy hơi chói vào ban đêm, có thể hạ độ sáng của thẻ.</li>
+    <li>Cỡ chữ đã nhỏ lại, ngày chỉ là dòng phụ, câu chào 16px.</li>
+  </ul>
+</div>
+</body>
+</html>

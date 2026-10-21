@@ -1,0 +1,172 @@
+@import 'tailwindcss';
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/*
+ * Bảng màu DyNAMic (mockup bản cuối: design/mockup-final.html)
+ *  - Sáng "H": giấy ngà + nút nâu + teal lagoon điểm xuyết
+ *  - Tối "D4": đúng 2 màu teal (nền #0f4a4d, nhấn #a8f0e6), chữ trắng
+ * Mọi màu đi qua biến CSS để đổi theme chỉ cần thêm/bớt class `dark` trên <html>.
+ */
+:root {
+  --canvas: #fbf6e9;
+  --alt: #f4eedd;
+  --ink: #26251e;
+  --body: #4a483f;
+  --cap: #6b685e;
+  --rule: #e7dfcb;
+  --rule2: #d6cbb2;
+  --brand: #4a2c0a; /* nút +, nút Thêm, chip đang chọn */
+  --on-brand: #fffdf8;
+  --ring: #a8957f; /* viền ô tròn chưa hoàn thành, ưu tiên thấp */
+  --amber: #8a5a00; /* ưu tiên trung bình */
+  --teal: #0c4243; /* tiến độ, tab, chuỗi ngày */
+  --on-teal: #fffdf8;
+  --focus-bg: #0c4243; /* thẻ "Nên làm trước" */
+  --focus-text: #fffdf8;
+  --focus-label: #8fe0d4;
+  --focus-sub: #cfeeea;
+  --focus-line: #3f7f7d;
+  --gs-bg: #fffdf8;
+  --gs-fg: #0c4243;
+  --oxblood: #5e0831; /* quá hạn, ưu tiên cao */
+  --forest: #0c3b1a; /* xong */
+  --hl: #e8bd3a;
+  --hl-alpha: 70%;
+  --lift: 0%; /* làm sáng màu project trên nền tối */
+  --overlay: rgba(0, 0, 0, 0.42);
+  color-scheme: light;
+}
+
+.dark {
+  --canvas: #0f4a4d;
+  --alt: #135356;
+  --ink: #ffffff;
+  --body: #ffffff;
+  --cap: #a8d9d3;
+  --rule: #1f6165;
+  --rule2: #2f787c;
+  --brand: #a8f0e6;
+  --on-brand: #0f4a4d;
+  --ring: #5aa8a2;
+  --amber: #fbbf6a;
+  --teal: #a8f0e6;
+  --on-teal: #0f4a4d;
+  --focus-bg: #a8f0e6;
+  --focus-text: #0f4a4d;
+  --focus-label: #1d6b6b;
+  --focus-sub: #1d5f60;
+  --focus-line: #0f4a4d;
+  --gs-bg: #0f4a4d;
+  --gs-fg: #e6fffb;
+  --oxblood: #ff9bb7;
+  --forest: #6ee7a8;
+  --hl: #ffc934;
+  --hl-alpha: 38%;
+  --lift: 45%;
+  --overlay: rgba(0, 0, 0, 0.55);
+  color-scheme: dark;
+}
+
+@theme inline {
+  --font-sans: 'Inter Variable', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-serif: 'Fraunces Variable', Georgia, serif;
+
+  --color-canvas: var(--canvas);
+  --color-alt: var(--alt);
+  --color-ink: var(--ink);
+  --color-body: var(--body);
+  --color-cap: var(--cap);
+  --color-rule: var(--rule);
+  --color-rule2: var(--rule2);
+  --color-brand: var(--brand);
+  --color-on-brand: var(--on-brand);
+  --color-ring: var(--ring);
+  --color-amber: var(--amber);
+  --color-teal: var(--teal);
+  --color-on-teal: var(--on-teal);
+  --color-focus: var(--focus-bg);
+  --color-oxblood: var(--oxblood);
+  --color-forest: var(--forest);
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  @apply bg-canvas text-ink font-sans antialiased;
+  -webkit-tap-highlight-color: transparent;
+  overscroll-behavior-y: none;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+/* Vùng an toàn cho iPhone có tai thỏ / thanh home */
+.pt-safe {
+  padding-top: max(env(safe-area-inset-top), 0.75rem);
+}
+.pb-safe {
+  padding-bottom: max(env(safe-area-inset-bottom), 0.5rem);
+}
+
+.num {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Vệt dạ quang bao trọn một cụm từ */
+.hl {
+  background: linear-gradient(
+    transparent 55%,
+    color-mix(in srgb, var(--hl) var(--hl-alpha), transparent) 55% 92%,
+    transparent 92%
+  );
+  padding: 0 2px;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+/* Màu project: tự sáng lên ở nền tối để vẫn thấy rõ */
+.pcolor {
+  background: color-mix(in srgb, var(--c), white var(--lift));
+}
+
+@utility input {
+  @apply w-full rounded-[10px] border border-rule2 bg-canvas px-3 py-2.5 text-base text-ink outline-none placeholder:text-cap focus:border-brand;
+}
+@utility btn {
+  @apply inline-flex min-h-11 items-center justify-center gap-1.5 rounded-[10px] px-4 text-sm font-semibold transition-transform active:scale-[0.97] disabled:opacity-50;
+}
+@utility btn-primary {
+  @apply btn bg-brand text-on-brand;
+}
+@utility btn-outline {
+  @apply btn border border-rule2 text-ink;
+}
+@utility btn-ghost {
+  @apply btn text-body;
+}
+@utility btn-danger {
+  @apply btn text-oxblood;
+}
+@utility chip {
+  @apply inline-flex min-h-10 items-center gap-1.5 rounded-[10px] border border-rule2 px-3.5 py-2 text-[13.5px] font-medium text-ink transition-colors;
+}
+@utility label {
+  @apply text-[11.5px] font-semibold tracking-[0.08em] text-cap uppercase;
+}
+
+/* Nút "Hoàn tác" của toast theo màu thương hiệu thay vì đen mặc định */
+[data-sonner-toast] [data-button] {
+  background: var(--brand) !important;
+  color: var(--on-brand) !important;
+  border-radius: 8px !important;
+  font-weight: 600;
+}

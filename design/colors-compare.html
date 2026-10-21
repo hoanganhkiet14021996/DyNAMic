@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>DyNAMic – So sánh bảng màu sáng (nâu · vàng · gold)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&display=swap" rel="stylesheet" />
+<style>
+  :root { --canvas:#fbf6e9; --ink:#0a0a0a; --body:#474747; --cap:#6b6b6b; --rule:#e7dfcb; --rule2:#d6cbb2; --stage:#e6dfcd; --oxblood:#5e0831; --forest:#0c3b1a; }
+  * { box-sizing: border-box; margin: 0; }
+  body { font-family: 'Inter', sans-serif; background: var(--stage); color: var(--ink); padding: 24px 16px 60px; -webkit-font-smoothing: antialiased; }
+  .serif { font-family: 'Fraunces', Georgia, serif; font-weight: 400; }
+  .top { max-width: 1400px; margin: 0 auto 26px; }
+  .top h1 { font: 500 24px 'Fraunces', serif; } .top p { color: var(--cap); font-size: 13.5px; margin-top: 6px; max-width: 760px; line-height: 1.55; }
+  .grid { max-width: 1400px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 28px; justify-content: center; }
+  .pal { width: 390px; }
+  .head { padding: 0 4px 10px; }
+  .head b { font: 500 20px 'Fraunces', serif; display: block; }
+  .head span { font-size: 13px; color: var(--cap); line-height: 1.45; display: block; margin-top: 2px; }
+  .swatches { display: flex; gap: 6px; margin: 10px 0 12px; }
+  .sw { flex: 1; text-align: center; font-size: 10.5px; color: var(--cap); line-height: 1.3; }
+  .sw i { display: block; height: 34px; border-radius: 8px; border: 1px solid rgba(0,0,0,.12); margin-bottom: 4px; }
+  .sw b { display: block; color: var(--ink); font-weight: 600; font-size: 10.5px; }
+  .ratio { font-size: 12px; color: var(--cap); margin-bottom: 10px; }
+  .ratio b { color: var(--ink); }
+
+  .phone { background: var(--canvas); border-radius: 30px; border: 7px solid #17161a; overflow: hidden; position: relative; padding-bottom: 86px; }
+  .st { height: 34px; padding: 11px 22px 0; display: flex; justify-content: space-between; font-size: 12px; font-weight: 600; }
+  .hd { padding: 4px 20px 10px; }
+  .label { font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--cap); }
+  .greet { font: 500 16px 'Fraunces', serif; margin-top: 3px; }
+  .hl { background: linear-gradient(transparent 55%, color-mix(in srgb, var(--hl) 75%, transparent) 55% 92%, transparent 92%); padding: 0 2px; }
+  .sumline { padding: 0 20px 12px; display: flex; align-items: center; gap: 12px; }
+  .sumline .n { font: 400 20px 'Fraunces', serif; white-space: nowrap; } .sumline small { font: 500 12px 'Inter'; color: var(--cap); margin-left: 4px; }
+  .line { flex: 1; height: 6px; background: var(--rule); border-radius: 99px; overflow: hidden; } .line i { display: block; width: 43%; height: 100%; background: var(--acc2); border-radius: 99px; }
+  .streak { font-size: 12px; font-weight: 600; color: var(--acc2); white-space: nowrap; }
+  .focus { margin: 0 16px; background: var(--fbg); color: #fffdf8; border-radius: 10px; padding: 14px 16px; }
+  .focus .label { color: var(--flabel); } .focus h3 { font: 400 19px/1.3 'Fraunces', serif; margin-top: 5px; }
+  .focus p { font-size: 12.5px; color: var(--fp); margin-top: 4px; }
+  .row { display: flex; gap: 8px; margin-top: 12px; }
+  .gb { flex: 1; height: 40px; border-radius: 10px; border: 1px solid var(--fline); display: grid; place-items: center; font-size: 13.5px; font-weight: 600; }
+  .gb.s { background: #fffdf8; color: var(--fbg); border-color: #fffdf8; }
+  .sec { padding: 14px 20px 6px; }
+  .task { display: flex; gap: 14px; padding: 11px 20px; border-top: 1px solid var(--rule); }
+  .chk { width: 24px; height: 24px; border-radius: 50%; border: 2px solid; flex-shrink: 0; }
+  .task .n { font-size: 15px; font-weight: 500; } .task .s { font-size: 12px; color: var(--cap); margin-top: 3px; }
+  .time { margin-left: auto; font-size: 13px; font-weight: 600; color: var(--body); }
+  .nav { position: absolute; left: 0; right: 0; bottom: 0; background: var(--canvas); border-top: 1px solid var(--rule); display: flex; align-items: flex-end; padding: 0 8px 14px; }
+  .nav > div { flex: 1; text-align: center; font-size: 11.5px; font-weight: 500; color: var(--cap); padding: 12px 0 2px; position: relative; }
+  .nav .act { color: var(--acc); font-weight: 600; } .nav .act::before { content: ''; position: absolute; top: -1px; left: 50%; margin-left: -14px; width: 28px; height: 2px; background: var(--acc2); border-radius: 2px; }
+  .fab { width: 50px; height: 50px; border-radius: 14px; background: var(--acc); color: #fffdf8; display: grid; place-items: center; margin: -22px auto 4px; border: 4px solid var(--canvas); box-sizing: content-box; font-size: 28px; line-height: 1; }
+  .nav .fw { padding: 0; }
+  .btnrow { margin-top: 12px; display: flex; gap: 8px; }
+  .btn { flex: 1; height: 44px; border-radius: 10px; background: var(--acc); color: #fffdf8; display: grid; place-items: center; font-weight: 600; font-size: 14px; }
+  .chip { flex: 1; height: 44px; border-radius: 10px; border: 1px solid var(--rule2); display: grid; place-items: center; font-size: 13.5px; font-weight: 500; }
+  .chip.sel { background: var(--acc); color: #fffdf8; border-color: var(--acc); font-weight: 600; }
+</style>
+</head>
+<body>
+<div class="top">
+  <h1>So sánh bảng màu sáng · nâu, vàng, gold</h1>
+  <p>Font tiêu đề: Fraunces. Nền giấy ngà <b>#fbf6e9</b> giữ nguyên ở cả 6 bảng, chỉ đổi họ màu nhấn. Tất cả đều thiên về <b>đậm và trầm</b>, không có màu vàng chói. Mỗi thẻ có dải màu mẫu (kèm mã), số đo độ tương phản của chữ kem trên màu nền thẻ (tối thiểu 4,5 mới đạt) và màn Hôm nay thu nhỏ để bạn nhìn thực tế.</p>
+</div>
+<div class="grid" id="grid"></div>
+
+<script>
+// acc = nút +, nút Thêm, tab đang chọn, chip chọn · acc2 = thanh tiến độ, chuỗi ngày, gạch trên tab · fbg = thẻ "Nên làm trước"
+const P = [
+  { name: 'A · Nâu cà phê', note: 'Bản hiện tại: một màu nâu đậm duy nhất, vệt bút dạ vàng.', acc:'#512906', acc2:'#512906', fbg:'#512906', flabel:'#e8c9a4', fp:'#ecdcc8', fline:'#8f6a45', hl:'#ffc934' },
+  { name: 'B · Vàng đồng đậm', note: 'Một màu gold đậm (như đồng cổ) làm chủ đạo. Ấm, sáng hơn nâu nhưng vẫn trầm.', acc:'#7a5a00', acc2:'#7a5a00', fbg:'#7a5a00', flabel:'#f6e3a1', fp:'#f9edc4', fline:'#b8963a', hl:'#f0c63c' },
+  { name: 'C · Nâu + gold', note: 'Nâu đậm làm nền cho nút và thẻ, gold đậm điểm xuyết (thanh tiến độ, chuỗi ngày, gạch tab).', acc:'#4a2c0a', acc2:'#a67c00', fbg:'#4a2c0a', flabel:'#e3c06a', fp:'#ecdcc8', fline:'#8f6a45', hl:'#e2b93b' },
+  { name: 'D · Đồng đỏ + gold', note: 'Nâu ngả đỏ như đồng thau/gỗ gụ, kèm gold trầm. Ấm và có chiều sâu nhất.', acc:'#7a3b10', acc2:'#b07a1a', fbg:'#7a3b10', flabel:'#f0cf8a', fp:'#f4e0c6', fline:'#b07f4f', hl:'#f0b94a' },
+  { name: 'E · Sô-cô-la + vàng đồng', note: 'Nâu rất đậm gần đen, kèm vàng đồng ánh kim. Sang và nghiêm túc.', acc:'#3a2312', acc2:'#b8912a', fbg:'#3a2312', flabel:'#d9b45a', fp:'#e9dccb', fline:'#7a5a3a', hl:'#d9ad3a' },
+  { name: 'F · Vàng olive đậm', note: 'Gold ngả xanh rêu, khác biệt nhất, hơi “cổ điển, thư viện”.', acc:'#5f5200', acc2:'#8a7a10', fbg:'#5f5200', flabel:'#ece08a', fp:'#f3ecb8', fline:'#9c8f2c', hl:'#e8d24a' },
+];
+const lum = h => { const c = [1,3,5].map(i => parseInt(h.substr(i,2),16)/255).map(v => v<=.03928 ? v/12.92 : Math.pow((v+.055)/1.055,2.4)); return .2126*c[0]+.7152*c[1]+.0722*c[2]; };
+const ratio = (a,b) => { const x=lum(a), y=lum(b); return ((Math.max(x,y)+.05)/(Math.min(x,y)+.05)); };
+const ok = r => r >= 4.5 ? '✓' : '✗';
+document.getElementById('grid').innerHTML = P.map(p => {
+  const r1 = ratio('#fffdf8', p.fbg), r2 = ratio('#fffdf8', p.acc);
+  return `
+  <div class="pal" style="--acc:${p.acc};--acc2:${p.acc2};--fbg:${p.fbg};--flabel:${p.flabel};--fp:${p.fp};--fline:${p.fline};--hl:${p.hl}">
+    <div class="head"><b>${p.name}</b><span>${p.note}</span></div>
+    <div class="swatches">
+      <div class="sw"><i style="background:${p.acc}"></i><b>Nút / tab</b>${p.acc}</div>
+      <div class="sw"><i style="background:${p.acc2}"></i><b>Điểm xuyết</b>${p.acc2}</div>
+      <div class="sw"><i style="background:${p.flabel}"></i><b>Nhãn thẻ</b>${p.flabel}</div>
+      <div class="sw"><i style="background:${p.hl}"></i><b>Dạ quang</b>${p.hl}</div>
+      <div class="sw"><i style="background:#fbf6e9"></i><b>Nền</b>#fbf6e9</div>
+    </div>
+    <div class="ratio">Chữ kem trên thẻ: <b>${r1.toFixed(1)}:1</b> ${ok(r1)} · trên nút: <b>${r2.toFixed(1)}:1</b> ${ok(r2)}</div>
+    <div class="phone">
+      <div class="st"><span>9:12</span><span>●●● 5G ▮</span></div>
+      <div class="hd"><div class="label">Thứ Bảy, 17/10</div><div class="greet">Chào <span class="hl">buổi sáng</span>, Kiệt</div></div>
+      <div class="sumline"><div class="n">3/7<small>việc xong</small></div><div class="line"><i></i></div><div class="streak">🔥 5 ngày</div></div>
+      <div class="focus"><div class="label">Nên làm trước</div><h3>Gửi báo cáo doanh thu tháng 9</h3><p>Quá hạn từ hôm qua 17:00 · Báo cáo Q4</p>
+        <div class="row"><div class="gb s">Xong</div><div class="gb">Dời sang hôm nay</div></div></div>
+      <div class="sec label">Có giờ</div>
+      <div class="task"><div class="chk" style="border-color:var(--oxblood)"></div><div><div class="n">Họp team sprint planning</div><div class="s">Công việc</div></div><div class="time">09:30</div></div>
+      <div class="task"><div class="chk" style="border-color:#8a5a00"></div><div><div class="n">Hoàn thiện slide trình bày</div><div class="s">▸ 1/3 · Báo cáo Q4</div></div><div class="time">15:00</div></div>
+      <div class="nav"><div class="act">Hôm nay</div><div>Sắp tới</div><div class="fw"><div class="fab">+</div></div><div>Dự án</div><div>Cài đặt</div></div>
+    </div>
+    <div class="btnrow"><div class="chip">Ngày mai</div><div class="chip sel">Hôm nay</div><div class="btn">Thêm việc</div></div>
+  </div>`;
+}).join('');
+</script>
+</body>
+</html>

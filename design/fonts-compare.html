@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>DyNAMic – So sánh font</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Lora:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500&family=Newsreader:opsz,wght@6..72,400;6..72,500&family=Fraunces:opsz,wght@9..144,400;9..144,500&family=Playfair+Display:wght@400;500;600&family=Be+Vietnam+Pro:wght@400;500;600&family=Hind:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root { --canvas:#fbf6e9; --ink:#0a0a0a; --body:#474747; --cap:#6b6b6b; --rule:#e7dfcb; --rule2:#d6cbb2; --acc:#512906; --f-bg:#512906; --f-label:#e8c9a4; --f-p:#ecdcc8; --stage:#e6dfcd; --hl:#ffc934; }
+  .dark { --canvas:#0c2a2c; --ink:#ffffff; --body:#e0f0ee; --cap:#94c2bd; --rule:#1f4b4d; --rule2:#2d6264; --acc:#5eead4; --f-bg:#15605f; --f-label:#99f6e4; --f-p:#d3faf3; --stage:#061c1e; }
+  * { box-sizing: border-box; margin: 0; }
+  body { font-family: 'Inter', sans-serif; background: var(--stage); color: var(--ink); padding: 24px 16px 60px; -webkit-font-smoothing: antialiased; }
+  .top { max-width: 1500px; margin: 0 auto 26px; display: flex; flex-wrap: wrap; gap: 12px 24px; justify-content: space-between; align-items: center; }
+  .top h1 { font: 500 22px 'Inter'; } .top p { color: var(--cap); font-size: 13.5px; margin-top: 4px; max-width: 700px; line-height: 1.5; }
+  .toggle { border: 1px solid var(--rule2); background: var(--canvas); color: var(--ink); border-radius: 10px; padding: 10px 16px; font: 600 13px 'Inter'; cursor: pointer; }
+  .grid { max-width: 1500px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 26px; justify-content: center; }
+  .card { width: 390px; background: var(--canvas); border: 1px solid var(--rule2); border-radius: 14px; padding: 16px 20px 20px; --serif: 'Source Serif 4'; }
+  .name { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 1px solid var(--rule); padding-bottom: 8px; margin-bottom: 14px; }
+  .name b { font: 600 15px 'Inter'; } .name span { font-size: 12px; color: var(--cap); }
+  .serif { font-family: var(--serif), Georgia, serif; font-weight: 400; }
+  .label { font-size: 11.5px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--cap); }
+  .greet { font-size: 16px; font-weight: 500; margin-top: 3px; }
+  .hl { background: linear-gradient(transparent 55%, color-mix(in srgb, var(--hl) 70%, transparent) 55% 92%, transparent 92%); padding: 0 2px; }
+  .dark .hl { background: linear-gradient(transparent 55%, color-mix(in srgb, var(--hl) 38%, transparent) 55% 92%, transparent 92%); }
+  .sum { display: flex; align-items: center; gap: 12px; margin-top: 12px; }
+  .sum .n { font-size: 20px; white-space: nowrap; } .sum small { font: 500 12px 'Inter'; color: var(--cap); margin-left: 4px; }
+  .line { flex: 1; height: 6px; background: var(--rule); border-radius: 99px; overflow: hidden; } .line i { display: block; height: 100%; width: 43%; background: var(--acc); }
+  .focus { margin-top: 14px; background: var(--f-bg); color: #fffdf8; border-radius: 10px; padding: 14px 16px; }
+  .focus .label { color: var(--f-label); } .focus h3 { font-size: 19px; line-height: 1.3; margin-top: 5px; } .focus p { font-size: 12.5px; color: var(--f-p); margin-top: 4px; }
+  .task { margin-top: 14px; border-top: 1px solid var(--rule); padding-top: 12px; display: flex; gap: 12px; }
+  .chk { width: 24px; height: 24px; border-radius: 50%; border: 2px solid var(--acc); flex-shrink: 0; }
+  .task .n { font-size: 15px; font-weight: 500; } .task .s { font-size: 12px; color: var(--cap); margin-top: 3px; }
+  .area { margin-top: 16px; display: flex; justify-content: space-between; align-items: baseline; border-bottom: 1px solid var(--ink); padding-bottom: 5px; }
+  .area h4 { font-size: 18px; } .area span { font-size: 17px; color: var(--acc); }
+  .vn { margin-top: 14px; font-size: 18px; line-height: 1.5; color: var(--body); }
+  .vn small { display: block; font: 400 11px 'Inter'; color: var(--cap); margin-bottom: 2px; }
+</style>
+</head>
+<body>
+<div class="top">
+  <div>
+    <h1>So sánh font chữ cho DyNAMic</h1>
+    <p>Mỗi thẻ là một lựa chọn cho phần chữ “tiêu đề” (câu chào, số tóm tắt, tên việc trong thẻ, tên khu vực), đúng cỡ thật trên điện thoại. Chữ việc và nhãn nhỏ vẫn là Inter, trừ hai thẻ cuối là toàn bộ sans: Be Vietnam Pro (font của NomNam, để đối chiếu) và Hind. Dòng nhỏ dưới cùng mỗi thẻ là bài thử dấu tiếng Việt.</p>
+  </div>
+  <button class="toggle" onclick="document.body.classList.toggle('dark'); this.textContent = document.body.classList.contains('dark') ? '☀️ Xem bản sáng' : '🌙 Xem bản tối'">🌙 Xem bản tối</button>
+</div>
+<div class="grid" id="grid"></div>
+
+<script>
+const fonts = [
+  ['Source Serif 4', 'Source Serif 4', 'Serif trung tính, nét đều. Bản v3 đang dùng.'],
+  ['Lora', 'Lora', 'Nét bút thư pháp, cong mềm, hơi “văn chương”.'],
+  ['Newsreader', 'Newsreader', 'Serif báo chí, gọn, hơi hẹp và sắc nét.'],
+  ['Fraunces', 'Fraunces', 'Mềm, tròn, có cá tính “ấm áp, thủ công”. Khác rõ nhất.'],
+  ['Playfair Display', 'Playfair Display', 'Tương phản nét đậm/mảnh mạnh, sang trọng kiểu tạp chí.'],
+  ['Be Vietnam Pro', 'Chỉ sans (Be Vietnam Pro)', 'Không serif, giống NomNam. Để đối chiếu.'],
+  ['Hind', 'Chỉ sans (Hind)', 'Sans gọn, nét đều, hơi hẹp. Toàn bộ chữ trong thẻ dùng Hind.'],
+];
+const allSans = ['Be Vietnam Pro', 'Hind'];
+const html = fonts.map(([css, label, desc]) => `
+  <div class="card" style="--serif:'${css}'${allSans.includes(css) ? `;font-family:'${css}',sans-serif` : ''}">
+    <div class="name"><b>${label}</b><span>${desc}</span></div>
+    <div class="label">Thứ Bảy, 17/10</div>
+    <div class="serif greet">Chào <span class="hl">buổi sáng</span>, Kiệt</div>
+    <div class="sum"><div class="serif n">3/7<small>việc xong</small></div><div class="line"><i></i></div></div>
+    <div class="focus"><div class="label">Nên làm trước</div><h3 class="serif">Gửi báo cáo doanh thu tháng 9</h3><p>Quá hạn từ hôm qua 17:00 · Báo cáo Q4</p></div>
+    <div class="task"><div class="chk"></div><div><div class="n" ${allSans.includes(css) ? `style="font-family:'${css}',sans-serif"` : ''}>Hoàn thiện slide trình bày</div><div class="s" ${allSans.includes(css) ? `style="font-family:'${css}',sans-serif"` : ''}>▸ 1/3 · Báo cáo Q4</div></div></div>
+    <div class="area"><h4 class="serif">Công việc</h4><span class="serif">58%</span></div>
+    <div class="vn serif"><small>Thử dấu tiếng Việt</small>Nguyễn Thị Ánh, ắ ằ ẳ ẵ ặ · ế ề ể ễ ệ · ơ ư ở ử</div>
+  </div>`).join('');
+document.getElementById('grid').innerHTML = html;
+</script>
+</body>
+</html>
