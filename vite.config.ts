@@ -18,7 +18,7 @@ export default defineConfig({
       filename: 'sw.ts',
       registerType: 'autoUpdate',
       injectRegister: 'auto',
-      includeAssets: ['favicon-v2.ico', 'apple-touch-icon-v2.png'],
+      includeAssets: ['favicon-v2.ico', 'apple-touch-icon-v3.png', 'pwa-192-v3.png'],
       manifest: {
         name: 'DyNAMic',
         short_name: 'DyNAMic',
@@ -30,10 +30,10 @@ export default defineConfig({
         start_url: './',
         scope: './',
         icons: [
-          { src: 'pwa-64x64.png', sizes: '64x64', type: 'image/png' },
-          { src: 'pwa-192x192.png', sizes: '192x192', type: 'image/png' },
-          { src: 'pwa-512x512.png', sizes: '512x512', type: 'image/png' },
-          { src: 'maskable-icon-512x512.png', sizes: '512x512', type: 'image/png', purpose: 'maskable' },
+          { src: 'pwa-64-v3.png', sizes: '64x64', type: 'image/png' },
+          { src: 'pwa-192-v3.png', sizes: '192x192', type: 'image/png' },
+          { src: 'pwa-512-v3.png', sizes: '512x512', type: 'image/png' },
+          { src: 'maskable-v3.png', sizes: '512x512', type: 'image/png', purpose: 'maskable' },
         ],
       },
       devOptions: { enabled: false },
