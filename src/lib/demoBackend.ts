@@ -73,7 +73,8 @@ export async function demoFetch(input: RequestInfo | URL, init?: RequestInit): P
     const rows = Array.isArray(body) ? body : [body]
     if (table === 'settings') return json([], 201)
     const created = rows.map((r) => {
-      const row = { id: `x${++n}`, color: '#64748b', ...r }
+      const defaults = table === 'tasks' ? { created_at: iso(new Date()), updated_at: iso(new Date()), completed_at: null } : {}
+      const row = { id: `x${++n}`, color: '#64748b', ...defaults, ...r }
       db[table].push(row)
       return row
     })

@@ -20,15 +20,17 @@ export function TaskRows({
   tasks,
   childrenOf,
   showDue,
+  dense,
 }: {
   tasks: Task[]
   childrenOf: Map<string, Task[]>
   showDue?: boolean
+  dense?: boolean
 }) {
   return (
     <div>
       {tasks.map((t) => (
-        <TaskRow key={t.id} task={t} subtasks={childrenOf.get(t.id) ?? []} showDue={showDue} />
+        <TaskRow key={t.id} task={t} subtasks={childrenOf.get(t.id) ?? []} showDue={showDue} dense={dense} />
       ))}
     </div>
   )
@@ -39,10 +41,12 @@ export function FoldedDone({
   tasks,
   childrenOf,
   label = 'Đã xong',
+  dense,
 }: {
   tasks: Task[]
   childrenOf: Map<string, Task[]>
   label?: string
+  dense?: boolean
 }) {
   const [open, setOpen] = useState(false)
   if (!tasks.length) return null
@@ -56,7 +60,7 @@ export function FoldedDone({
         {label} ({tasks.length}){' '}
         <ChevronRight size={14} className={cn('transition-transform', open && 'rotate-90')} />
       </button>
-      {open && <TaskRows tasks={tasks} childrenOf={childrenOf} showDue />}
+      {open && <TaskRows tasks={tasks} childrenOf={childrenOf} showDue={!dense} dense={dense} />}
     </section>
   )
 }

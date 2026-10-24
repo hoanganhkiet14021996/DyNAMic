@@ -1,10 +1,10 @@
 import { addDays, format } from 'date-fns'
 import { ChevronRight } from 'lucide-react'
 import { useRef, useState, type FormEvent } from 'react'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useSearchParams } from 'react-router-dom'
 import { toast } from 'sonner'
 import { useAreas, useCreateTag, useCreateTask, useDeleteTask, useProjects, useSetTaskTags, useTags } from '../lib/api'
-import { fromInputs } from '../lib/dates'
+import { fromInputs, today } from '../lib/dates'
 import { cn, newId } from '../lib/tasks'
 import { useAddSheet } from '../lib/useSheets'
 import { Chip } from './ui/Chip'
@@ -30,9 +30,13 @@ function dueDate(choice: DueChoice, custom: string): string {
   return ''
 }
 
-/** Lấy mặc định theo trang đang xem: Hôm nay → hạn hôm nay; khu vực / project → gắn sẵn vào đó. */
+/**
+ * Lấy mặc định theo trang đang xem: Hôm nay → hạn hôm nay; Sắp tới → ngày đang chọn trên lịch;
+ * khu vực / project → gắn sẵn vào đó.
+ */
 function useContextDefaults() {
   const { pathname } = useLocation()
+  const [params] = useSearchParams()
   const { data: projects } = useProjects()
   const parts = pathname.split('/').filter(Boolean)
   let area: string | null = null
@@ -42,8 +46,19 @@ function useContextDefaults() {
     project = parts[1] ?? null
     area = projects?.find((p) => p.id === project)?.area_id ?? null
   }
-  const due: DueChoice = parts[0] === 'today' || parts.length === 0 ? 'today' : null
-  return { area, project, due }
+  let due: DueChoice = parts[0] === 'today' || parts.length === 0 ? 'today' : null
+  let custom = ''
+  if (parts[0] === 'upcoming') {
+    const now = today()
+    const day = params.get('day') ?? ymd(now)
+    if (day === ymd(now)) due = 'today'
+    else if (day === ymd(addDays(now, 1))) due = 'tomorrow'
+    else {
+      due = 'custom'
+      custom = day
+    }
+  }
+  return { area, project, due, custom }
 }
 
 export function AddSheet() {
@@ -67,7 +82,7 @@ function AddBody() {
 
   const [title, setTitle] = useState('')
   const [due, setDue] = useState<DueChoice>(defaults.due)
-  const [custom, setCustom] = useState('')
+  const [custom, setCustom] = useState(defaults.custom)
   const [areaId, setAreaId] = useState<string | null>(defaults.area)
   const [projectId, setProjectId] = useState<string | null>(defaults.project)
   const [priority, setPriority] = useState(0)
