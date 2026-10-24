@@ -88,6 +88,10 @@ Các bản mockup (mở bằng Chrome, giữ lại để so sánh): `design/mock
 - [x] Kiểm tra: lint 0 cảnh báo, build qua (bản build không chứa code demo), duyệt ảnh ở 390×844 + 1280×800 sáng/tối, 11 kiểm tra thao tác chạm đều đạt (vuốt, Hoàn tác xong/xóa, Dời, thêm liên tiếp, đổi theme)
 - [x] Sửa lỗi phát hiện khi test: "Dời sang hôm nay" cho việc có giờ đã qua thì chuyển thành việc cả ngày hôm nay (trước đây vẫn bị coi là quá hạn)
 - [ ] 👤 Thử trên iPhone, xác nhận "đơn giản, dễ dùng"
+- [ ] **Sửa theo báo cáo `npm run audit` (2026-10-24)**: (1) toast "Hoàn tác" che tiêu đề tháng + nút ‹ › ở Sắp tới → dời xuống gần thanh dưới hoặc rút ngắn thời gian; (2) nút ‹ › (36px), nút tích tròn ở Sắp tới (40px), tên việc ở thẻ "Nên làm trước" (cao 24px), nút Xong/Dời (cao 40px) → tối thiểu 44px; (3) ô Tìm việc 14px → 16px (iPhone tự phóng to); (4) chữ <12px: nhãn thanh dưới 11.5px, "QUÁ HẠN/CÓ GIỜ", "Đang làm" 11px → tăng ~12.5px; (5) chữ "CN" lịch bản tối tương phản 3.73:1 → ≥4.5:1; (6) kiểm tra thanh dưới có che dòng cuối trang không (chưa chắc, script báo `main` padding-bottom 0)
+- [ ] Nhận xét 3 người dùng ảo (Lan/bác Hùng/Minh, chấm 3–3.5/5): ai cũng thiếu **nhắc việc + việc lặp** → ưu tiên Phase 2; Minh thêm thiếu habit + Kanban (Phase 3–4); thêm việc mất 6–7 thao tác (hơi nhiều); thêm đồ án + 3 subtask mất 15 thao tác
+- [x] **Sắp tới kiểu TickTick** (2026-10-24): lịch cả tháng ở trên (T2→CN, chấm màu project/khu vực, chấm đỏ = quá hạn, vuốt ngang / ‹ › đổi tháng, nút "Hôm nay"), dưới là danh sách việc của ngày đang chọn ở dạng gọn (`TaskRow dense`: chữ 14px, nhãn Project / 💼 Công việc / 🏠 Cá nhân / Inbox bên phải). Ngày chọn nằm trên URL `?day=&month=` → bảng Thêm việc tự đặt hạn vào ngày đó. Chọn hôm nay thì hiện cả Quá hạn. Bỏ mục "Chưa có deadline" ở trang này (vẫn xem ở Inbox / Dự án)
+- [ ] **Bỏ hashtag khỏi giao diện** (người dùng nói "không cần", 2026-10-24): ẩn `#tag` ở `TaskRow` (cả dạng thường và `dense`), bỏ phần tag trong `TaskSheet`, bỏ hướng dẫn `#tag` ở bảng Thêm việc (có thể giữ `!1 !2 !3`)
 
 ### Phase 2 — Nhắc việc (trọng tâm) *làm sau Phase 1.5*
 - [ ] Bảng `dyn_reminders`: nhiều lần nhắc / 1 việc; mặc định nhắc trước deadline 15 phút
@@ -134,6 +138,7 @@ Các bản mockup (mở bằng Chrome, giữ lại để so sánh): `design/mock
 | 2026-10-17 | **Theme sáng H**: nền ngà `#fbf6e9`, mực ấm `#26251e`, nút nâu `#4a2c0a`, thẻ/tiến độ/tab teal `#0c4243`. **Theme tối D4**: đúng 2 màu teal (nền `#0f4a4d`, điểm nhấn `#a8f0e6`), chữ trắng |
 | 2026-10-17 | Màu project: xanh dương đậm `#1e4f8f` (bản tối `#7db4ff` để đủ tương phản), thay xanh dương nhạt `#0ea5e9` |
 | 2026-10-17 | Không dùng Hind (không có gói tiếng Việt); không dùng navy (không hợp nền ngà) |
+| 2026-10-24 | **Không cần hashtag (#tag)**: người dùng không dùng → bỏ khỏi giao diện (dòng việc, bảng Thêm việc / Chi tiết, bộ lọc). Bảng `dyn_tags` / `dyn_task_tags` cứ để nguyên trong DB, không cần xóa |
 
 ## 📝 Nhật ký
 - **2026-10-17** — Research + plan. Xong Phase 0 & 1 (code). Chuyển sang Supabase dùng chung, đăng nhập tên + PIN, đổi tên DyNAMic, tách schema ra file chung. 
@@ -144,6 +149,8 @@ Các bản mockup (mở bằng Chrome, giữ lại để so sánh): `design/mock
 - **2026-10-17** — Người dùng duyệt mockup cuối ("code đi"). **Code xong toàn bộ giao diện mới** (nền tảng, Hôm nay, bảng trượt Thêm việc/Chi tiết, Sắp tới, Dự án, Cài đặt, cột trái desktop). Lint sạch, build qua, 11/11 kiểm tra thao tác chạm đạt; sửa 1 lỗi thật ("Dời sang hôm nay" cho việc có giờ đã qua) và để khay vuốt ẩn không nhận bàn phím (`inert`). Logo tạm đổi sang nâu + teal. Chưa thử với tài khoản thật / iPhone thật, chưa push. Bước tiếp: bạn dùng thử rồi báo chỗ cần chỉnh → Phase 2 (nhắc việc).
 - **2026-10-21** — Tạo repo GitHub, push lần đầu (Pages bằng GitHub Actions). Thay logo tạm bằng logo thật `DyNAMic logo2.png` (icon PWA, apple-touch, favicon, logo trong app), push lại.
 - **2026-10-22** — Sửa icon (tràn viền, không còn viền trắng; đổi tên file `-v3` để iPhone tải lại). Trang đăng nhập: đọc tên/PIN thẳng từ ô (iPhone tự điền), màu ô tự điền theo theme, thanh trạng thái `default` như NomNam, `min-h-dvh`. Sự cố "chạm ô đăng nhập không hiện bàn phím" khi mở từ màn hình chính: chẩn đoán cho thấy ô có nhận focus, NomNam cũng bị → **lỗi iOS 18.1.1, khởi động lại iPhone là hết**. Đã gỡ khung chẩn đoán. Người dùng bắt đầu dùng thử trên iPhone.
+- **2026-10-24** — Theo góp ý (thích màn to-do của TickTick): làm lại trang Sắp tới thành lịch tháng + danh sách gọn có nhãn project/khu vực. Lint sạch, build qua, kiểm tra bằng demo (sáng/tối, chọn ngày, thêm việc vào ngày đã chọn, đổi tháng). Chưa commit/push.
+- **2026-10-24** — Thêm `npm run audit` (Playwright + Chrome có sẵn): quét tĩnh + 3 người dùng ảo (Lan, bác Hùng, Minh). Sửa demo backend (thêm việc thiếu `created_at` làm sập bảng chi tiết — chỉ ở demo). Chưa commit.
 - *(Ghi chú sự cố nhỏ: mockup đầu từng bị ghi đè nhầm; đã khôi phục thành `mockup-v1-nomnam.html`. Từ nay mỗi phiên bản mockup là một file riêng, không ghi đè.)*
 
 ---
@@ -155,6 +162,7 @@ Nói chuyện bằng **tiếng Việt**; người dùng không phải dev → gi
 ### Lệnh
 - `npm run dev` → http://localhost:5190 (**không** dùng 5173: project khác của người dùng chạy ở đó)
 - `npm run build` (tsc -b + vite build + service worker) · `npm run lint` (oxlint, phải 0 cảnh báo)
+- `npm run audit` → quét UI/UX (font, cỡ chữ, vùng chạm, tương phản) + 3 người dùng ảo dùng thử ở chế độ demo; báo cáo ở `scripts/ux-audit/out/report.md` (cần Chrome; `-- --seed=N` để chạy ngẫu nhiên khác)
 
 ### Supabase (dùng chung với Web app1 NAMONEY `fin_*`, Web app2 NomNam)
 - Schema chung: **`D:\AI Work\supabase_schema.sql`** (ngoài repo, không có trong git) — phần DyNAMic ở cuối file. Sửa bảng `dyn_*` thì sửa ở đó, giữ idempotent (`if not exists`, `drop policy if exists`). Người dùng tự dán vào SQL Editor; Claude không có (và không được xin) service_role key.
