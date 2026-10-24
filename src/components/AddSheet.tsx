@@ -14,9 +14,9 @@ type DueChoice = 'today' | 'tomorrow' | 'week' | 'custom' | null
 
 const PRIORITY_CHIP = [
   { label: 'Ưu tiên', cls: '' },
-  { label: 'Thấp', cls: 'border-ring text-ink' },
-  { label: 'Trung bình', cls: 'border-amber text-amber' },
-  { label: 'Cao', cls: 'border-oxblood text-oxblood' },
+  { label: 'Thấp', cls: 'border-prio-low text-prio-low' },
+  { label: 'Trung bình', cls: 'border-prio-mid text-prio-mid' },
+  { label: 'Cao', cls: 'border-prio-high text-prio-high' },
 ]
 
 const ymd = (d: Date) => format(d, 'yyyy-MM-dd')

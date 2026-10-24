@@ -2,7 +2,7 @@ import { motion } from 'motion/react'
 import { cn } from '../lib/tasks'
 import type { Task } from '../lib/types'
 
-const RING = ['border-ring', 'border-ring', 'border-amber', 'border-oxblood']
+const RING = ['border-ring', 'border-prio-low', 'border-prio-mid', 'border-prio-high']
 
 /** Ô tròn hoàn thành: viền theo mức ưu tiên; khi xong, dấu tích được vẽ như nét bút. */
 export function PenCheck({

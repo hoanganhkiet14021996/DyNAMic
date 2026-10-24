@@ -105,3 +105,30 @@ export function todaySummary(roots: Task[], now: Date) {
   const remaining = todayActive(roots)
   return { done: doneToday.length, total: doneToday.length + remaining.length, doneTasks: doneToday }
 }
+
+export interface WeekDay {
+  date: Date
+  label: string
+  done: number
+  isToday: boolean
+  isFuture: boolean
+}
+
+const WEEK_LABELS = ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN']
+
+/** 7 ngày của tuần hiện tại (T2 → CN) kèm số việc đã hoàn thành mỗi ngày. */
+export function weekStrip(roots: Task[], now: Date): WeekDay[] {
+  const today = startOfDay(now)
+  const monday = subDays(today, (today.getDay() + 6) % 7)
+  const doneDates = roots.filter((t) => t.status === 'done' && t.completed_at).map((t) => new Date(t.completed_at!))
+  return WEEK_LABELS.map((label, i) => {
+    const date = new Date(monday.getFullYear(), monday.getMonth(), monday.getDate() + i)
+    return {
+      date,
+      label,
+      done: doneDates.filter((c) => isSameDay(c, date)).length,
+      isToday: isSameDay(date, today),
+      isFuture: date > today,
+    }
+  })
+}

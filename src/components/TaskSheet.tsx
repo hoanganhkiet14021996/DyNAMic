@@ -38,7 +38,7 @@ export function TaskSheetHost() {
 
 type Panel = 'due' | 'area' | 'prio' | null
 
-const PRIO_CLS = ['', 'border-ring', 'border-amber text-amber', 'border-oxblood text-oxblood']
+const PRIO_CLS = ['', 'border-prio-low text-prio-low', 'border-prio-mid text-prio-mid', 'border-prio-high text-prio-high']
 
 function TaskBody({ task, subtasks }: { task: Task; subtasks: Task[] }) {
   const update = useUpdateTask()

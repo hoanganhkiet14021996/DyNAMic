@@ -19,7 +19,10 @@
   --brand: #4a2c0a; /* nút +, nút Thêm, chip đang chọn */
   --on-brand: #fffdf8;
   --ring: #a8957f; /* viền ô tròn chưa hoàn thành, ưu tiên thấp */
-  --amber: #8a5a00; /* ưu tiên trung bình */
+  --amber: #8a5a00;
+  --prio-high: #c2410c; /* ưu tiên cao */
+  --prio-mid: #b7791f; /* ưu tiên trung bình */
+  --prio-low: #1e4f8f; /* ưu tiên thấp */
   --teal: #0c4243; /* tiến độ, tab, chuỗi ngày */
   --on-teal: #fffdf8;
   --focus-bg: #0c4243; /* thẻ "Nên làm trước" */
@@ -50,6 +53,9 @@
   --on-brand: #0f4a4d;
   --ring: #5aa8a2;
   --amber: #fbbf6a;
+  --prio-high: #ff9a6b;
+  --prio-mid: #fbbf6a;
+  --prio-low: #7db4ff;
   --teal: #a8f0e6;
   --on-teal: #0f4a4d;
   --focus-bg: #a8f0e6;
@@ -89,6 +95,9 @@
   --color-on-brand: var(--on-brand);
   --color-ring: var(--ring);
   --color-amber: var(--amber);
+  --color-prio-high: var(--prio-high);
+  --color-prio-mid: var(--prio-mid);
+  --color-prio-low: var(--prio-low);
   --color-teal: var(--teal);
   --color-on-teal: var(--on-teal);
   --color-focus: var(--focus-bg);
