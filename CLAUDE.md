@@ -151,6 +151,7 @@ Các bản mockup (mở bằng Chrome, giữ lại để so sánh): `design/mock
 - **2026-10-22** — Sửa icon (tràn viền, không còn viền trắng; đổi tên file `-v3` để iPhone tải lại). Trang đăng nhập: đọc tên/PIN thẳng từ ô (iPhone tự điền), màu ô tự điền theo theme, thanh trạng thái `default` như NomNam, `min-h-dvh`. Sự cố "chạm ô đăng nhập không hiện bàn phím" khi mở từ màn hình chính: chẩn đoán cho thấy ô có nhận focus, NomNam cũng bị → **lỗi iOS 18.1.1, khởi động lại iPhone là hết**. Đã gỡ khung chẩn đoán. Người dùng bắt đầu dùng thử trên iPhone.
 - **2026-10-24** — Theo góp ý (thích màn to-do của TickTick): làm lại trang Sắp tới thành lịch tháng + danh sách gọn có nhãn project/khu vực. Lint sạch, build qua, kiểm tra bằng demo (sáng/tối, chọn ngày, thêm việc vào ngày đã chọn, đổi tháng). Chưa commit/push.
 - **2026-10-24** — Thêm `npm run audit` (Playwright + Chrome có sẵn): quét tĩnh + 3 người dùng ảo (Lan, bác Hùng, Minh). Sửa demo backend (thêm việc thiếu `created_at` làm sập bảng chi tiết — chỉ ở demo). Chưa commit.
+- **2026-10-24** — Commit + push (2 commit: Sắp tới kiểu TickTick; audit + CLAUDE.md) → GitHub Pages tự deploy. Bước tiếp: bạn thử trên iPhone, rồi Phase 2.
 - *(Ghi chú sự cố nhỏ: mockup đầu từng bị ghi đè nhầm; đã khôi phục thành `mockup-v1-nomnam.html`. Từ nay mỗi phiên bản mockup là một file riêng, không ghi đè.)*
 
 ---
