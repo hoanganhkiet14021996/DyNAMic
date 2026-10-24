@@ -72,6 +72,12 @@
   --font-sans: 'Inter Variable', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   --font-serif: 'Fraunces Variable', Georgia, serif;
 
+  /* Thang chữ chung: 12 nhãn · 14 phụ/nút · 16 tên việc · 18 số lớn · 22 tiêu đề · 28 */
+  --text-xl: 22px;
+  --text-xl--line-height: 1.3;
+  --text-2xl: 28px;
+  --text-2xl--line-height: 1.2;
+
   --color-canvas: var(--canvas);
   --color-alt: var(--alt);
   --color-ink: var(--ink);
@@ -101,11 +107,13 @@ body {
   -webkit-tap-highlight-color: transparent;
 }
 
-button,
-input,
-select,
-textarea {
-  font: inherit;
+@layer base {
+  button,
+  input,
+  select,
+  textarea {
+    font: inherit;
+  }
 }
 
 /* Vùng an toàn cho iPhone có tai thỏ / thanh home */
@@ -163,10 +171,10 @@ textarea {
   @apply btn text-oxblood;
 }
 @utility chip {
-  @apply inline-flex min-h-10 items-center gap-1.5 rounded-[10px] border border-rule2 px-3.5 py-2 text-[13.5px] font-medium text-ink transition-colors;
+  @apply inline-flex min-h-11 items-center gap-1.5 rounded-[10px] border border-rule2 px-3.5 py-2 text-sm font-medium text-ink transition-colors;
 }
 @utility label {
-  @apply text-[11.5px] font-semibold tracking-[0.08em] text-cap uppercase;
+  @apply text-xs font-semibold tracking-[0.08em] text-cap uppercase;
 }
 
 /* Nút "Hoàn tác" của toast theo màu thương hiệu thay vì đen mặc định */

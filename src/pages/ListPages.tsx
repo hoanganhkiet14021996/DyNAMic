@@ -6,7 +6,7 @@ import { dayLabel } from '../lib/dates'
 import { compareTasks, useTaskIndex } from '../lib/tasks'
 import type { Task } from '../lib/types'
 
-export const BackToProjects = () => <Link to="/projects">‹ Dự án</Link>
+export const BackToProjects = () => <Link to="/projects" className="inline-flex min-h-11 items-center">‹ Dự án</Link>
 
 export function InboxPage() {
   const { roots, children } = useTaskIndex()
@@ -14,7 +14,7 @@ export function InboxPage() {
   return (
     <>
       <PageHeader label={<BackToProjects />} title="Inbox" />
-      <p className="px-5 pb-2 text-[13px] text-cap">Việc chưa phân loại: ghi nhanh trước, sắp xếp sau.</p>
+      <p className="px-5 pb-2 text-sm text-cap">Việc chưa phân loại: ghi nhanh trước, sắp xếp sau.</p>
       {inbox.length ? (
         <TaskRows tasks={inbox} childrenOf={children} showDue />
       ) : (
@@ -37,7 +37,7 @@ export function DonePage() {
   return (
     <>
       <PageHeader label={<BackToProjects />} title="Đã xong" />
-      <p className="px-5 pb-2 text-[13px] text-cap">90 ngày gần nhất.</p>
+      <p className="px-5 pb-2 text-sm text-cap">90 ngày gần nhất.</p>
       {done.length === 0 && <EmptyState title="Chưa có việc nào hoàn thành">Xong việc nào, nó sẽ nằm ở đây.</EmptyState>}
       {[...byDay].map(([key, tasks]) => (
         <section key={key}>

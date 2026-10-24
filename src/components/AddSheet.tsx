@@ -214,7 +214,7 @@ function AddBody() {
         type="button"
         onClick={() => setMore(!more)}
         aria-expanded={more}
-        className="mt-3.5 flex min-h-10 items-center gap-1 text-[13.5px] font-medium text-cap"
+        className="mt-3.5 flex min-h-11 items-center gap-1 text-sm font-medium text-cap"
       >
         <ChevronRight size={14} className={cn('transition-transform', more && 'rotate-90')} /> Thêm chi tiết
         {!more && <span className="font-normal"> · giờ, project, ghi chú</span>}
@@ -243,7 +243,7 @@ function AddBody() {
         </div>
       )}
 
-      <button type="submit" className="btn-primary mt-3 h-12 w-full text-[15px]" disabled={!title.trim()}>
+      <button type="submit" className="btn-primary mt-3 h-12 w-full text-base" disabled={!title.trim()}>
         Thêm việc
       </button>
     </form>

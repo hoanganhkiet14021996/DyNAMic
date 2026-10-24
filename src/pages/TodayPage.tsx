@@ -67,7 +67,7 @@ export function TodayPage() {
           {nudges.length > 0 && (
             <ul className="pt-1.5">
               {nudges.map((n) => (
-                <li key={n.key} className="flex items-center gap-2.5 px-5 py-2 text-[13px] text-body">
+                <li key={n.key} className="flex items-center gap-2.5 px-5 py-2 text-sm text-body">
                   <span className="w-5 text-center">{n.icon}</span>
                   <span>
                     {n.pre}

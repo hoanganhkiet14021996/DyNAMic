@@ -19,10 +19,11 @@ createRoot(document.getElementById('root')!).render(
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
         <App />
-        {/* Toast ở trên cùng để không đè thanh dưới; nút Hoàn tác dùng chung cho mọi thao tác */}
+        {/* Toast nằm ngay trên thanh dưới để không che tiêu đề / nút đổi tháng; nút Hoàn tác dùng chung */}
         <Toaster
-          position="top-center"
-          offset={{ top: 'max(env(safe-area-inset-top), 12px)' }}
+          position="bottom-center"
+          offset={{ bottom: 'calc(env(safe-area-inset-bottom) + 84px)' }}
+          mobileOffset={{ bottom: 'calc(env(safe-area-inset-bottom) + 84px)', left: 16, right: 16 }}
           toastOptions={{
             style: {
               background: 'var(--canvas)',

@@ -82,7 +82,7 @@ export function ProjectPage() {
             {area ? `${area.icon ?? ''} ${area.name} · ` : ''}
             {done.length}/{all.length} việc
           </span>
-          <span className="num font-serif text-[17px] text-teal">{completion(all)}%</span>
+          <span className="num font-serif text-lg text-teal">{completion(all)}%</span>
         </div>
         <ProgressLine value={completion(all)} color={project.color} />
       </div>
@@ -115,7 +115,7 @@ export function AreaPage() {
       <div className="px-5 pb-2">
         <div className="mb-1.5 flex items-baseline justify-between text-xs text-cap">
           <span>{active.length} việc đang mở</span>
-          <span className="num font-serif text-[17px] text-teal">{completion(all)}%</span>
+          <span className="num font-serif text-lg text-teal">{completion(all)}%</span>
         </div>
         <ProgressLine value={completion(all)} />
       </div>

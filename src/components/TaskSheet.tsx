@@ -134,7 +134,7 @@ function TaskBody({ task, subtasks }: { task: Task; subtasks: Task[] }) {
           </div>
           {date && (
             <button
-              className="btn-ghost -ml-2 min-h-9 text-oxblood"
+              className="btn-ghost -ml-2 min-h-11 text-oxblood"
               onClick={() => {
                 setDate('')
                 setTime('')
@@ -180,7 +180,7 @@ function TaskBody({ task, subtasks }: { task: Task; subtasks: Task[] }) {
       <div>
         <div className="mb-1.5 flex items-baseline justify-between">
           <span className="label">Tiến độ</span>
-          <span className="num font-serif text-[19px] text-teal">{progress}%</span>
+          <span className="num font-serif text-lg text-teal">{progress}%</span>
         </div>
         {subtasks.length > 0 || task.status === 'done' ? (
           <ProgressLine value={progress} />
@@ -204,7 +204,7 @@ function TaskBody({ task, subtasks }: { task: Task; subtasks: Task[] }) {
         type="button"
         onClick={() => setMore(!more)}
         aria-expanded={more}
-        className="flex min-h-10 w-full items-center gap-1 border-t border-rule pt-2 text-[13.5px] font-medium text-cap"
+        className="flex min-h-11 w-full items-center gap-1 border-t border-rule pt-2 text-sm font-medium text-cap"
       >
         <ChevronRight size={14} className={cn('transition-transform', more && 'rotate-90')} /> Thêm chi tiết
         {!more && <span className="font-normal"> · project, tag, ghi chú</span>}
@@ -265,13 +265,13 @@ function TaskBody({ task, subtasks }: { task: Task; subtasks: Task[] }) {
         </div>
       )}
 
-      <div className="flex items-center justify-between pt-1 text-[13px] text-cap">
+      <div className="flex items-center justify-between pt-1 text-sm text-cap">
         <span>
           Tạo {format(new Date(task.created_at), 'dd/MM/yyyy HH:mm')}
           {task.completed_at && ` · Xong ${format(new Date(task.completed_at), 'dd/MM HH:mm')}`}
         </span>
         <button
-          className="btn-danger min-h-10 px-2"
+          className="btn-danger min-h-11 px-2"
           onClick={() => {
             open(task.parent_id ?? null)
             actions.remove(task)
@@ -328,7 +328,7 @@ function TagPicker({ task }: { task: Task }) {
             onChange={(e) => setName(e.target.value)}
             placeholder="+ tag mới"
             aria-label="Tag mới"
-            className="h-10 w-28 rounded-[10px] border border-dashed border-rule2 bg-transparent px-3 text-[13.5px] outline-none placeholder:text-cap focus:border-brand"
+            className="h-10 w-28 rounded-[10px] border border-dashed border-rule2 bg-transparent px-3 text-sm outline-none placeholder:text-cap focus:border-brand"
           />
         </form>
       </div>
@@ -366,7 +366,7 @@ function Subtasks({ parent, subtasks }: { parent: Task; subtasks: Task[] }) {
                 const v = e.target.value.trim()
                 if (v && v !== s.title) update.mutate({ id: s.id, patch: { title: v } })
               }}
-              className={cn('min-w-0 flex-1 bg-transparent py-2 text-[14.5px] font-medium outline-none', s.status === 'done' && 'text-cap line-through')}
+              className={cn('min-w-0 flex-1 bg-transparent py-2 text-base font-medium outline-none', s.status === 'done' && 'text-cap line-through')}
             />
             <button className="-mr-2 p-2 text-cap" aria-label="Xóa subtask" onClick={() => del.mutate(s.id)}>
               <X size={16} />
@@ -380,7 +380,7 @@ function Subtasks({ parent, subtasks }: { parent: Task; subtasks: Task[] }) {
             onChange={(e) => setText(e.target.value)}
             placeholder="Thêm subtask"
             aria-label="Thêm subtask"
-            className="flex-1 bg-transparent py-2 text-[14.5px] outline-none placeholder:text-cap"
+            className="flex-1 bg-transparent py-2 text-base outline-none placeholder:text-cap"
           />
         </form>
       </div>

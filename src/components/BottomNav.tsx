@@ -10,7 +10,7 @@ function Tab({ to, label, icon: Icon }: NavItem) {
       to={to}
       className={({ isActive }) =>
         cn(
-          'relative flex flex-1 flex-col items-center gap-0.5 pt-3 pb-1 text-[11.5px] font-medium text-cap',
+          'relative flex flex-1 flex-col items-center gap-0.5 pt-3 pb-1 text-xs font-medium text-cap',
           isActive && 'font-semibold text-teal',
         )
       }

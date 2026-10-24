@@ -12,11 +12,10 @@ import {
 } from 'date-fns'
 import { vi } from 'date-fns/locale'
 import { ChevronLeft, ChevronRight, Plus } from 'lucide-react'
-import { useRef, type CSSProperties } from 'react'
+import { useRef } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { PageHeader } from '../components/PageHeader'
 import { FoldedDone, SectionLabel, TaskRows } from '../components/TaskGroup'
-import { useAreas, useProjects } from '../lib/api'
 import { isOverdue } from '../lib/dates'
 import { cn, compareTasks, useTaskIndex } from '../lib/tasks'
 import type { Task } from '../lib/types'
@@ -43,8 +42,6 @@ export function UpcomingPage() {
   const add = useAddSheet()
   const [params, setParams] = useSearchParams()
   const { roots, children } = useTaskIndex()
-  const { data: projects } = useProjects()
-  const { data: areas } = useAreas()
 
   const todayKey = key(now)
   const selKey = params.get('day') ?? todayKey
@@ -73,10 +70,6 @@ export function UpcomingPage() {
     const list = byDay.get(k) ?? []
     list.push(t)
     byDay.set(k, list)
-  }
-  const colorOf = (t: Task) => {
-    const p = projects?.find((x) => x.id === t.project_id)
-    return p?.color ?? areas?.find((a) => a.id === (t.area_id ?? p?.area_id))?.color ?? 'var(--cap)'
   }
 
   const gridStart = startOfWeek(startOfMonth(month), WEEK)
@@ -107,14 +100,14 @@ export function UpcomingPage() {
         right={
           <>
             {(selKey !== todayKey || !isSameMonth(month, now)) && (
-              <button onClick={() => pick(now)} className="min-h-9 rounded-full border border-rule2 px-3 text-xs font-semibold text-ink">
+              <button onClick={() => pick(now)} className="min-h-11 rounded-full px-3 text-sm font-semibold text-teal">
                 Hôm nay
               </button>
             )}
-            <button onClick={() => shiftMonth(-1)} aria-label="Tháng trước" className="flex size-9 items-center justify-center text-body">
+            <button onClick={() => shiftMonth(-1)} aria-label="Tháng trước" className="flex size-11 items-center justify-center text-body">
               <ChevronLeft size={20} />
             </button>
-            <button onClick={() => shiftMonth(1)} aria-label="Tháng sau" className="flex size-9 items-center justify-center text-body">
+            <button onClick={() => shiftMonth(1)} aria-label="Tháng sau" className="flex size-11 items-center justify-center text-body">
               <ChevronRight size={20} />
             </button>
           </>
@@ -133,9 +126,9 @@ export function UpcomingPage() {
           if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.5) shiftMonth(dx < 0 ? 1 : -1)
         }}
       >
-        <div className="grid grid-cols-7 pb-1 text-center text-[11px] font-semibold text-cap">
+        <div className="grid grid-cols-7 pb-1 text-center text-xs font-semibold text-cap">
           {DOW.map((d) => (
-            <span key={d} className={cn(d === 'CN' && 'text-oxblood/80')}>
+            <span key={d}>
               {d}
             </span>
           ))}
@@ -158,22 +151,19 @@ export function UpcomingPage() {
               >
                 <span
                   className={cn(
-                    'num flex size-[27px] items-center justify-center rounded-full text-[13px]',
+                    'num flex size-[27px] items-center justify-center rounded-full text-sm',
                     on ? 'bg-teal font-semibold text-on-teal' : isToday ? 'font-bold text-teal ring-1 ring-teal' : 'text-ink',
                   )}
                 >
                   {d.getDate()}
                 </span>
-                <span className="mt-[3px] flex h-[5px] gap-[3px]">
-                  {late ? (
-                    <i className="size-[5px] rounded-full bg-oxblood" />
-                  ) : (
-                    pending.slice(0, 3).map((t) => (
-                      <i key={t.id} className="pcolor size-[5px] rounded-full" style={{ '--c': colorOf(t) } as CSSProperties} />
-                    ))
+                {/* một chấm: đỏ = có việc quá hạn, teal = có việc, nhạt = đã xong hết */}
+                <i
+                  className={cn(
+                    'mt-[3px] size-[5px] rounded-full',
+                    late ? 'bg-oxblood' : pending.length ? 'bg-teal' : tasks.length ? 'bg-rule2' : 'bg-transparent',
                   )}
-                  {!pending.length && tasks.length > 0 && <i className="size-[5px] rounded-full bg-rule2" />}
-                </span>
+                />
               </button>
             )
           })}
@@ -194,7 +184,7 @@ export function UpcomingPage() {
         <TaskRows tasks={open} childrenOf={children} dense />
         <button
           onClick={add.open}
-          className="flex min-h-11 w-full items-center gap-3 border-t border-rule px-5 text-left text-[13.5px] text-cap"
+          className="flex min-h-11 w-full items-center gap-3 border-t border-rule px-5 text-left text-sm text-cap"
         >
           <Plus size={18} className="text-ring" />
           {open.length ? 'Thêm việc' : 'Chưa có việc · thêm việc vào ngày này'}

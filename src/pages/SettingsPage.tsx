@@ -195,7 +195,7 @@ function ArchivedProjectsCard() {
         {archived.map((p) => (
           <div key={p.id} className="flex min-h-11 items-center justify-between border-t border-rule first:border-t-0 text-sm">
             <span>{p.name}</span>
-            <button className="btn-ghost min-h-9 text-xs" onClick={() => update.mutate({ id: p.id, archived: false })}>
+            <button className="btn-ghost min-h-11 text-xs" onClick={() => update.mutate({ id: p.id, archived: false })}>
               Khôi phục
             </button>
           </div>

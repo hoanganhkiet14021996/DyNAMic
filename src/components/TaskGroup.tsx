@@ -53,7 +53,7 @@ export function FoldedDone({
   return (
     <section className="mt-2 border-t border-rule">
       <button
-        className="flex min-h-11 w-full items-center gap-1 px-5 text-left text-[13px] font-medium text-cap"
+        className="flex min-h-11 w-full items-center gap-1 px-5 text-left text-sm font-medium text-cap"
         onClick={() => setOpen(!open)}
         aria-expanded={open}
       >
@@ -78,7 +78,7 @@ export function EmptyState({
   return (
     <div className="px-8 pt-12 text-center">
       <NotepadDoodle className="mx-auto h-[110px] w-32 text-ink" />
-      <h2 className="mt-4 font-serif text-[22px] leading-snug font-normal">{title}</h2>
+      <h2 className="mt-4 font-serif text-xl leading-snug font-normal">{title}</h2>
       {children && <p className="mt-2 text-sm leading-relaxed text-body">{children}</p>}
       {action &&
         (action.to ? (

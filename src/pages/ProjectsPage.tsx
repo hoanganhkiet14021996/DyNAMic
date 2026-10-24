@@ -74,7 +74,7 @@ export function ProjectsPage() {
                     <h2 className="font-serif text-lg font-normal">
                       {a.icon} {a.name}
                     </h2>
-                    <span className="num font-serif text-[17px] text-teal">{completion(areaRoots)}%</span>
+                    <span className="num font-serif text-lg text-teal">{completion(areaRoots)}%</span>
                   </Link>
                   {ps.map((p) => {
                     const pr = roots.filter((t) => t.project_id === p.id)
@@ -121,7 +121,7 @@ function NewProject({ areaId, count }: { areaId: string; count: number }) {
 
   if (!open)
     return (
-      <button onClick={() => setOpen(true)} className="mt-2 flex min-h-10 items-center gap-1.5 text-[13px] font-medium text-cap">
+      <button onClick={() => setOpen(true)} className="mt-2 flex min-h-11 items-center gap-1.5 text-sm font-medium text-cap">
         <Plus size={15} /> Project mới
       </button>
     )

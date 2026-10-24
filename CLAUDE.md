@@ -152,6 +152,8 @@ Các bản mockup (mở bằng Chrome, giữ lại để so sánh): `design/mock
 - **2026-10-24** — Theo góp ý (thích màn to-do của TickTick): làm lại trang Sắp tới thành lịch tháng + danh sách gọn có nhãn project/khu vực. Lint sạch, build qua, kiểm tra bằng demo (sáng/tối, chọn ngày, thêm việc vào ngày đã chọn, đổi tháng). Chưa commit/push.
 - **2026-10-24** — Thêm `npm run audit` (Playwright + Chrome có sẵn): quét tĩnh + 3 người dùng ảo (Lan, bác Hùng, Minh). Sửa demo backend (thêm việc thiếu `created_at` làm sập bảng chi tiết — chỉ ở demo). Chưa commit.
 - **2026-10-24** — Commit + push (2 commit: Sắp tới kiểu TickTick; audit + CLAUDE.md) → GitHub Pages tự deploy. Bước tiếp: bạn thử trên iPhone, rồi Phase 2.
+- **2026-10-24** — Chỉnh UI theo kết quả audit: thang chữ chung 12/14/16/18/22/28 (trước có 13 cỡ, định nghĩa trong `@theme` ở `src/index.css`; không dùng `text-[..px]` nữa); sửa `font: inherit` đè cỡ chữ (đưa vào `@layer base`); toast Hoàn tác xuống ngay trên thanh dưới (không che nút đổi tháng); nút ≥44px; lịch chỉ còn 1 chấm (đỏ quá hạn / teal có việc / nhạt xong hết), CN cùng màu; hàng việc dense dùng chung bố cục với Hôm nay (nhãn project xuống dòng phụ). Lint sạch, build qua, audit: vùng chạm 64→24, hết chữ nhỏ, hết lỗi đổi tháng. Chưa commit.
+- **2026-10-24** — Theo góp ý: hàng việc ở Sắp tới chỉ còn **một dòng** (vòng tích + tên + giờ + chấm màu project/khu vực, giống TickTick); bỏ hiển thị hashtag ở mọi danh sách (tag vẫn còn trong bảng chi tiết + Cài đặt). Đã commit + push.
 - *(Ghi chú sự cố nhỏ: mockup đầu từng bị ghi đè nhầm; đã khôi phục thành `mockup-v1-nomnam.html`. Từ nay mỗi phiên bản mockup là một file riêng, không ghi đè.)*
 
 ---
