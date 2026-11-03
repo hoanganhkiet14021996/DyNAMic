@@ -1,22 +1,22 @@
 import { format } from 'date-fns'
 import { Link } from 'react-router-dom'
 import { PageHeader } from '../components/PageHeader'
-import { EmptyState, SectionLabel, TaskRows } from '../components/TaskGroup'
+import { EmptyState, SectionLabel, SortableTaskRows, TaskRows } from '../components/TaskGroup'
 import { dayLabel } from '../lib/dates'
-import { compareTasks, useTaskIndex } from '../lib/tasks'
+import { compareManual, useTaskIndex } from '../lib/tasks'
 import type { Task } from '../lib/types'
 
 export const BackToProjects = () => <Link to="/projects" className="inline-flex min-h-11 items-center">‹ Dự án</Link>
 
 export function InboxPage() {
   const { roots, children } = useTaskIndex()
-  const inbox = roots.filter((t) => t.status !== 'done' && !t.area_id && !t.project_id).sort(compareTasks)
+  const inbox = roots.filter((t) => t.status !== 'done' && !t.area_id && !t.project_id).sort(compareManual)
   return (
     <>
       <PageHeader label={<BackToProjects />} title="Inbox" />
       <p className="px-5 pb-2 text-sm text-cap">Việc chưa phân loại: ghi nhanh trước, sắp xếp sau.</p>
       {inbox.length ? (
-        <TaskRows tasks={inbox} childrenOf={children} showDue />
+        <SortableTaskRows tasks={inbox} childrenOf={children} showDue />
       ) : (
         <EmptyState title="Inbox trống">Mọi việc đều đã có chỗ của nó.</EmptyState>
       )}

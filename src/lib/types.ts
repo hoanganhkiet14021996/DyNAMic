@@ -35,6 +35,8 @@ export interface Task {
   priority: number
   is_urgent: boolean
   is_important: boolean
+  /** Tốn công (ma trận Hôm nay). null = tự đoán theo subtask */
+  is_heavy: boolean | null
   due_at: string | null
   start_at: string | null
   all_day: boolean

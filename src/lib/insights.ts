@@ -1,6 +1,6 @@
 // Logic "thông minh" của màn Hôm nay: toàn bộ là hàm thuần (không gọi API, không phụ thuộc React).
 import { differenceInMinutes, format, isSameDay, startOfDay, subDays } from 'date-fns'
-import { dueLabel, isDueToday, isOverdue } from './dates'
+import { isDueToday, isOverdue } from './dates'
 import type { Task } from './types'
 
 export type GreetingPhrase = 'buổi sáng' | 'buổi trưa' | 'buổi chiều' | 'buổi tối'
@@ -41,13 +41,6 @@ export function pickFocus(active: Task[], now: Date): Task | null {
   const important = pool.filter((t) => t.priority >= 2).sort(byPriorityThenDue)
   if (important.length) return important[0]
   return [...pool].sort((a, b) => a.sort_order - b.sort_order)[0]
-}
-
-/** Dòng phụ dưới tên việc trên thẻ "Nên làm trước". */
-export function focusReason(t: Task): string {
-  if (isOverdue(t)) return `Quá hạn từ ${dueLabel(t).toLowerCase()}`
-  if (t.due_at) return `Hạn ${dueLabel(t).toLowerCase()}`
-  return t.priority >= 3 ? 'Ưu tiên cao' : 'Việc nên xong hôm nay'
 }
 
 export interface Nudge {

@@ -32,7 +32,7 @@ function addTask(o: Row) {
   n++
   db.tasks.push({
     id: `t${n}`, area_id: null, project_id: null, parent_id: null, notes: null, status: 'todo', priority: 0,
-    is_urgent: false, is_important: false, due_at: null, start_at: null, all_day: false, rrule: null,
+    is_urgent: false, is_important: false, is_heavy: null, due_at: null, start_at: null, all_day: false, rrule: null,
     progress: 0, sort_order: n, kanban_order: n, completed_at: null, created_at: iso(now), updated_at: iso(now), ...o,
   })
 }

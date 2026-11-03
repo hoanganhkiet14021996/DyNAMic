@@ -1,21 +1,41 @@
 import { format } from 'date-fns'
+import { useState } from 'react'
 import type { Task } from '../lib/types'
 import { vi } from 'date-fns/locale'
 import { useAuth } from '../auth/useAuth'
-import { FocusCard } from '../components/FocusCard'
 import { PageHeader } from '../components/PageHeader'
-import { EmptyState, FoldedDone, SectionLabel, TaskRows } from '../components/TaskGroup'
+import { EmptyState, FoldedDone, SortableTaskRows } from '../components/TaskGroup'
+import { TodayMatrix } from '../components/TodayMatrix'
 import { ProgressRing } from '../components/ui/ProgressRing'
 import { WeekStrip } from '../components/WeekStrip'
 import { useAreas, useProjects } from '../lib/api'
 import { displayName } from '../lib/auth'
 import { isDueToday, isOverdue } from '../lib/dates'
 import { greetingPhrase, pickFocus, pickNudges, streakDays, todayActive, todaySummary, weekStrip } from '../lib/insights'
-import { compareTasks, useTaskIndex } from '../lib/tasks'
+import { cn, compareManual, useTaskIndex } from '../lib/tasks'
 import { useAddSheet } from '../lib/useSheets'
 import { useNow } from '../lib/useNow'
 
+type View = 'list' | 'matrix'
+const VIEW_KEY = 'dyn.todayView'
+const readView = (): View => {
+  try {
+    return localStorage.getItem(VIEW_KEY) === 'matrix' ? 'matrix' : 'list'
+  } catch {
+    return 'list'
+  }
+}
+
 export function TodayPage() {
+  const [view, setViewState] = useState<View>(readView)
+  const setView = (v: View) => {
+    setViewState(v)
+    try {
+      localStorage.setItem(VIEW_KEY, v)
+    } catch {
+      /* chế độ riêng tư: chỉ không nhớ được lựa chọn */
+    }
+  }
   const now = useNow()
   const { session } = useAuth()
   const add = useAddSheet()
@@ -31,18 +51,14 @@ export function TodayPage() {
   const streak = streakDays(roots, now)
 
   const rest = todayActive(roots)
-    .filter((t) => t.id !== focus?.id)
-    .sort(compareTasks)
   const week = weekStrip(roots, now)
-  // Chia theo khu vực (Công việc / Cá nhân / ...); trong mỗi nhóm: quá hạn trước, rồi theo giờ, việc cả ngày cuối
+  // Chia theo khu vực (Công việc / Cá nhân / ...); trong mỗi nhóm theo thứ tự tự kéo thả
   const areaOf = (t: Task) => t.area_id ?? projects?.find((p) => p.id === t.project_id)?.area_id ?? null
-  const rank = (t: Task) => (isOverdue(t) ? 0 : !t.all_day && t.due_at ? 1 : 2)
-  const sortInGroup = (a: Task, b: Task) => rank(a) - rank(b) || (a.due_at ?? '').localeCompare(b.due_at ?? '') || compareTasks(a, b)
   const groups = [
     ...(areas ?? []).map((a) => ({ key: a.id, title: `${a.icon ? a.icon + ' ' : ''}${a.name}`, tasks: rest.filter((t) => areaOf(t) === a.id) })),
     { key: 'none', title: 'Chưa phân loại', tasks: rest.filter((t) => !areaOf(t) || !areas?.some((a) => a.id === areaOf(t))) },
   ]
-    .map((g) => ({ ...g, tasks: g.tasks.sort(sortInGroup) }))
+    .map((g) => ({ ...g, tasks: g.tasks.sort(compareManual) }))
     .filter((g) => g.tasks.length > 0)
 
   const empty = sum.total - sum.done === 0
@@ -80,8 +96,6 @@ export function TodayPage() {
           </div>
           <WeekStrip days={week} />
 
-          {focus && <FocusCard task={focus} project={projects?.find((p) => p.id === focus.project_id)?.name} />}
-
           {nudges.length > 0 && (
             <ul className="pt-1.5">
               {nudges.map((n) => (
@@ -97,15 +111,50 @@ export function TodayPage() {
             </ul>
           )}
 
-          {groups.map((g) => {
+          {rest.length > 0 && (
+            <div className="flex gap-1.5 px-4 pt-3" role="tablist" aria-label="Cách xem">
+              {(
+                [
+                  ['list', '☰ Danh sách'],
+                  ['matrix', '▦ Ma trận'],
+                ] as const
+              ).map(([v, label]) => (
+                <button
+                  key={v}
+                  role="tab"
+                  aria-selected={view === v}
+                  onClick={() => setView(v)}
+                  className={cn(
+                    'min-h-11 rounded-full border px-4 text-sm font-medium',
+                    view === v ? 'border-teal bg-teal font-semibold text-on-teal' : 'border-rule2 text-body',
+                  )}
+                >
+                  {label}
+                </button>
+              ))}
+            </div>
+          )}
+
+          {view === 'matrix' && rest.length > 0 && (
+            <TodayMatrix tasks={[...rest].sort(compareManual)} childrenOf={children} focusId={focus?.id} />
+          )}
+
+          {view === 'list' && groups.map((g) => {
             const late = g.tasks.filter(isOverdue).length
             return (
               <section key={g.key}>
-                <SectionLabel right={late ? <span className="font-semibold text-oxblood">{late} quá hạn</span> : `${g.tasks.length} việc`}>
-                  {g.title}
-                </SectionLabel>
-                <TaskRows tasks={g.tasks.filter((t) => !isDueToday(t) && isOverdue(t))} childrenOf={children} showDue />
-                <TaskRows tasks={g.tasks.filter((t) => isDueToday(t) || !isOverdue(t))} childrenOf={children} />
+                <h2 className="flex items-baseline justify-between px-5 pt-5 pb-2">
+                  <span className="font-serif text-xl leading-tight font-normal">{g.title}</span>
+                  <span className={cn('text-sm', late ? 'font-semibold text-oxblood' : 'text-cap')}>
+                    {late ? `${late} quá hạn` : `${g.tasks.length} việc`}
+                  </span>
+                </h2>
+                <SortableTaskRows
+                  tasks={g.tasks}
+                  childrenOf={children}
+                  showDue={(t) => !isDueToday(t) && isOverdue(t)}
+                  highlightId={focus?.id}
+                />
               </section>
             )
           })}

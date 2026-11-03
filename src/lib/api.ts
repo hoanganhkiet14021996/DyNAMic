@@ -127,6 +127,7 @@ export function useCreateTask() {
         priority: 0,
         is_urgent: false,
         is_important: false,
+        is_heavy: null,
         due_at: null,
         start_at: null,
         all_day: false,
@@ -162,6 +163,24 @@ export function useUpdateTask() {
           return next
         }),
       ),
+    onError: (_e, _v, ctx) => o.rollback(ctx),
+    onSettled: o.settle,
+  })
+}
+
+/** Đổi thứ tự (kéo thả): ghi sort_order mới cho các việc vừa đổi chỗ. */
+export function useReorderTasks() {
+  const o = useOptimisticTasks()
+  return useMutation({
+    mutationFn: async (items: { id: string; sort_order: number }[]) => {
+      await Promise.all(
+        items.map(async ({ id, sort_order }) => must(await supabase.from('dyn_tasks').update({ sort_order }).eq('id', id))),
+      )
+    },
+    onMutate: (items) => {
+      const next = new Map(items.map((i) => [i.id, i.sort_order]))
+      return o.apply((tasks) => tasks.map((t) => (next.has(t.id) ? { ...t, sort_order: next.get(t.id)! } : t)))
+    },
     onError: (_e, _v, ctx) => o.rollback(ctx),
     onSettled: o.settle,
   })

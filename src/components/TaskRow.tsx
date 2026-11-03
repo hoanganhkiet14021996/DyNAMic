@@ -1,4 +1,4 @@
-import type { CSSProperties } from 'react'
+import type { CSSProperties, ReactNode } from 'react'
 import { useAreas, useProjects } from '../lib/api'
 import { useTaskActions } from '../lib/actions'
 import { dueLabel, formatClock, isOverdue } from '../lib/dates'
@@ -12,17 +12,23 @@ import { SwipeRow } from './SwipeRow'
  * Dòng việc dùng khắp app. `showDue` bật khi trang không có sẵn mốc ngày (Inbox, Project, tìm kiếm...);
  * ở Hôm nay / Sắp tới chỉ hiện giờ ở bên phải.
  * `dense` = dòng gọn dưới lịch tháng (Sắp tới): chữ nhỏ hơn, chỉ một dòng: tên việc + giờ + chấm màu project / khu vực.
+ * `handle` = tay nắm kéo thả (đặt cuối dòng), có khi danh sách cho đổi thứ tự.
+ * `highlight` = việc "Nên làm trước" ở Hôm nay: nền teal nhạt + vạch trái + nhãn nhỏ, vẫn nằm đúng chỗ trong danh sách.
  */
 export function TaskRow({
   task,
   subtasks,
   showDue = false,
   dense = false,
+  handle,
+  highlight = false,
 }: {
   task: Task
   subtasks: Task[]
   showDue?: boolean
   dense?: boolean
+  handle?: ReactNode
+  highlight?: boolean
 }) {
   const open = useOpenTask()
   const actions = useTaskActions()
@@ -66,7 +72,7 @@ export function TaskRow({
       )}
     >
       {dense ? (
-        <div className="flex min-h-11 items-center gap-3 border-t border-rule px-5 py-2">
+        <div className={cn('flex min-h-11 items-center gap-3 border-t border-rule py-2 pl-5', handle ? 'pr-0' : 'pr-5')}>
           <PenCheck task={task} size={20} onToggle={() => (done ? actions.reopen(task) : actions.complete(task))} />
           <div className={cn('min-w-0 flex-1 truncate text-base', done && 'text-cap line-through')}>{task.title}</div>
           {timed && !showDue && (
@@ -77,15 +83,24 @@ export function TaskRow({
             style={{ '--c': dotColor } as CSSProperties}
             title={project?.name ?? area?.name ?? 'Inbox'}
           />
+          {handle}
         </div>
       ) : (
-        <div className="flex min-h-[54px] items-start gap-3.5 border-t border-rule px-5 py-3">
+        <div
+          className={cn(
+            'relative flex min-h-12 items-start gap-3 border-t border-rule py-2 pl-5',
+            handle ? 'pr-0' : 'pr-5',
+            highlight && 'bg-hl-row',
+          )}
+        >
+          {highlight && <span aria-hidden className="absolute inset-y-0 left-0 w-1 bg-teal" />}
           <div className="pt-px">
             <PenCheck task={task} onToggle={() => (done ? actions.reopen(task) : actions.complete(task))} />
           </div>
           <div className="min-w-0 flex-1">
             <div className={cn('text-base leading-snug font-medium break-words', done && 'text-cap line-through')}>{task.title}</div>
-            <div className="mt-[3px] flex flex-wrap items-center gap-x-3 gap-y-0.5 text-xs font-medium text-cap">
+            <div className="mt-0.5 flex flex-wrap items-center gap-x-3 gap-y-0.5 text-xs font-medium text-cap">
+              {highlight && <span className="font-semibold text-teal">★ Nên làm trước</span>}
               {task.status === 'doing' && (
                 <span className="rounded-full border border-ring px-2 py-px text-xs font-semibold text-teal">Đang làm</span>
               )}
@@ -107,6 +122,7 @@ export function TaskRow({
           {timed && !showDue && (
             <div className={cn('num pt-0.5 text-sm font-semibold', overdue ? 'text-oxblood' : 'text-body')}>{formatClock(task.due_at!)}</div>
           )}
+          {handle}
         </div>
       )}
     </SwipeRow>

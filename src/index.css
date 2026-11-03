@@ -101,6 +101,12 @@
   --color-teal: var(--teal);
   --color-on-teal: var(--on-teal);
   --color-focus: var(--focus-bg);
+  --color-hl-row: color-mix(in srgb, var(--teal) 9%, var(--canvas));
+  /* 4 ô ma trận Hôm nay */
+  --color-q-now: color-mix(in srgb, var(--oxblood) 11%, var(--canvas));
+  --color-q-quick: color-mix(in srgb, var(--amber) 13%, var(--canvas));
+  --color-q-plan: color-mix(in srgb, var(--teal) 11%, var(--canvas));
+  --color-q-free: var(--alt);
   --color-oxblood: var(--oxblood);
   --color-forest: var(--forest);
 }

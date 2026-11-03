@@ -7,6 +7,19 @@ import { Toaster } from 'sonner'
 import App from './App'
 import { AuthProvider } from './auth/AuthProvider'
 import './index.css'
+import { registerSW } from 'virtual:pwa-register'
+
+// Tab mở cả ngày (máy công ty) không tự kiểm tra bản mới vì app không chuyển trang thật.
+// Mỗi lần quay lại tab thì hỏi bản mới; có bản mới thì service worker thay ngay và trang tự tải lại.
+registerSW({
+  immediate: true,
+  onRegisteredSW(_url, reg) {
+    if (!reg) return
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible') void reg.update()
+    })
+  },
+})
 
 const queryClient = new QueryClient({
   defaultOptions: {

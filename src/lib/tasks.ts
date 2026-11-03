@@ -37,6 +37,26 @@ export function compareTasks(a: Task, b: Task) {
   return a.sort_order - b.sort_order
 }
 
+/** "Tốn công" cho ma trận Hôm nay: theo lựa chọn của người dùng, chưa chọn thì việc có subtask = nặng. */
+export function isHeavy(task: Task, subtasks: Task[]) {
+  return task.is_heavy ?? subtasks.length > 0
+}
+
+/** Thứ tự tự sắp bằng tay (kéo thả); việc mới có sort_order = thời điểm tạo nên nằm cuối. */
+export function compareManual(a: Task, b: Task) {
+  return a.sort_order - b.sort_order || a.created_at.localeCompare(b.created_at)
+}
+
+/**
+ * Gán lại sort_order sau khi kéo thả: dùng lại đúng các giá trị cũ của nhóm (xếp tăng dần) theo thứ tự mới,
+ * nên thứ tự so với việc ở danh sách khác không bị xáo. Chỉ trả về những việc thật sự đổi.
+ */
+export function reorderPatch(before: Task[], after: Task[]) {
+  const slots = before.map((t) => t.sort_order).sort((a, b) => a - b)
+  for (let i = 1; i < slots.length; i++) if (slots[i] <= slots[i - 1]) slots[i] = slots[i - 1] + 0.001
+  return after.map((t, i) => ({ id: t.id, sort_order: slots[i] })).filter((p, i) => p.sort_order !== after[i].sort_order)
+}
+
 /** Danh sách task gốc (không phải subtask) + bản đồ parent → subtask. */
 export function useTaskIndex() {
   const q = useTasks()

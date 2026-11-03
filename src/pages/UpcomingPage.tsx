@@ -15,9 +15,9 @@ import { ChevronLeft, ChevronRight, Plus } from 'lucide-react'
 import { useRef } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { PageHeader } from '../components/PageHeader'
-import { FoldedDone, SectionLabel, TaskRows } from '../components/TaskGroup'
+import { FoldedDone, SectionLabel, SortableTaskRows, TaskRows } from '../components/TaskGroup'
 import { isOverdue } from '../lib/dates'
-import { cn, compareTasks, useTaskIndex } from '../lib/tasks'
+import { cn, compareManual, compareTasks, useTaskIndex } from '../lib/tasks'
 import type { Task } from '../lib/types'
 import { useAddSheet } from '../lib/useSheets'
 import { useNow } from '../lib/useNow'
@@ -78,7 +78,7 @@ export function UpcomingPage() {
   for (let d = gridStart; d <= gridEnd; d = addDays(d, 1)) cells.push(d)
 
   const dayTasks = byDay.get(selKey) ?? []
-  const open = dayTasks.filter((t) => t.status !== 'done').sort(compareTasks)
+  const open = dayTasks.filter((t) => t.status !== 'done').sort(compareManual)
   const done = dayTasks.filter((t) => t.status === 'done')
   // Hôm nay: kéo cả việc quá hạn của những ngày trước vào đầu danh sách
   const overdue =
@@ -181,7 +181,7 @@ export function UpcomingPage() {
         )}
 
         <SectionLabel right={open.length ? `${open.length} việc` : undefined}>{dayTitle(selected, now)}</SectionLabel>
-        <TaskRows tasks={open} childrenOf={children} dense />
+        <SortableTaskRows tasks={open} childrenOf={children} dense />
         <button
           onClick={add.open}
           className="flex min-h-11 w-full items-center gap-3 border-t border-rule px-5 text-left text-sm text-cap"

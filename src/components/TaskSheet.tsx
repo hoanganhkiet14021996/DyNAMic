@@ -14,7 +14,7 @@ import {
 } from '../lib/api'
 import { useTaskActions } from '../lib/actions'
 import { dueLabel, fromInputs, isOverdue, toDateInput, toTimeInput } from '../lib/dates'
-import { cn, newId, taskProgress, useTaskIndex } from '../lib/tasks'
+import { cn, isHeavy, newId, taskProgress, useTaskIndex } from '../lib/tasks'
 import { PRIORITIES, STATUSES, type Task, type TaskInput } from '../lib/types'
 import { useOpenTask } from '../lib/useOpenTask'
 import { PenCheck } from './PenCheck'
@@ -245,6 +245,9 @@ function TaskBody({ task, subtasks }: { task: Task; subtasks: Task[] }) {
               <div className="flex flex-wrap gap-2">
                 <Chip selected={task.is_urgent} onClick={() => save({ is_urgent: !task.is_urgent })}>
                   🔥 Khẩn cấp
+                </Chip>
+                <Chip selected={isHeavy(task, subtasks)} onClick={() => save({ is_heavy: !isHeavy(task, subtasks) })}>
+                  🏋️ Tốn công
                 </Chip>
                 <Chip selected={task.is_important} onClick={() => save({ is_important: !task.is_important })}>
                   ⭐ Quan trọng

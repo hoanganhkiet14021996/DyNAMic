@@ -3,10 +3,10 @@ import type { CSSProperties } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { ConfirmButton } from '../components/ConfirmButton'
 import { PageHeader } from '../components/PageHeader'
-import { EmptyState, FoldedDone, SectionLabel, TaskRows } from '../components/TaskGroup'
+import { EmptyState, FoldedDone, SectionLabel, SortableTaskRows } from '../components/TaskGroup'
 import { ProgressLine } from '../components/ui/ProgressLine'
 import { useAreas, useDeleteProject, useProjects, useUpdateProject } from '../lib/api'
-import { compareTasks, useTaskIndex } from '../lib/tasks'
+import { compareManual, useTaskIndex } from '../lib/tasks'
 import { BackToProjects } from './ListPages'
 import { completion } from '../lib/projects'
 
@@ -22,7 +22,7 @@ export function ProjectPage() {
   if (!project) return <EmptyState title="Không tìm thấy project" action={{ to: '/projects', label: 'Về Dự án' }} />
 
   const all = roots.filter((t) => t.project_id === project.id)
-  const active = all.filter((t) => t.status !== 'done').sort(compareTasks)
+  const active = all.filter((t) => t.status !== 'done').sort(compareManual)
   const done = all.filter((t) => t.status === 'done')
   const area = areas?.find((a) => a.id === project.area_id)
 
@@ -87,7 +87,7 @@ export function ProjectPage() {
         <ProgressLine value={completion(all)} color={project.color} />
       </div>
       {active.length ? (
-        <TaskRows tasks={active} childrenOf={children} showDue />
+        <SortableTaskRows tasks={active} childrenOf={children} showDue />
       ) : (
         <EmptyState title="Chưa có việc nào đang mở">Bấm nút + để thêm việc cho project này.</EmptyState>
       )}
@@ -105,7 +105,7 @@ export function AreaPage() {
   if (!area) return <EmptyState title="Không tìm thấy khu vực" action={{ to: '/projects', label: 'Về Dự án' }} />
 
   const all = roots.filter((t) => t.area_id === area.id)
-  const active = all.filter((t) => t.status !== 'done').sort(compareTasks)
+  const active = all.filter((t) => t.status !== 'done').sort(compareManual)
   const ps = (projects ?? []).filter((p) => p.area_id === area.id && !p.archived)
   const loose = active.filter((t) => !t.project_id)
 
@@ -123,7 +123,7 @@ export function AreaPage() {
       {loose.length > 0 && (
         <>
           <SectionLabel>Không thuộc project</SectionLabel>
-          <TaskRows tasks={loose} childrenOf={children} showDue />
+          <SortableTaskRows tasks={loose} childrenOf={children} showDue />
         </>
       )}
       {ps.map((p) => {
@@ -132,7 +132,7 @@ export function AreaPage() {
         return (
           <section key={p.id}>
             <SectionLabel right={`${completion(all.filter((t) => t.project_id === p.id))}%`}>{p.name}</SectionLabel>
-            <TaskRows tasks={list} childrenOf={children} showDue />
+            <SortableTaskRows tasks={list} childrenOf={children} showDue />
           </section>
         )
       })}

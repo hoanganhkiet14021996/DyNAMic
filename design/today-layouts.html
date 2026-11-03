@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bố cục trang Hôm nay</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500&family=Inter:wght@400;500;600&display=swap&subset=vietnamese" rel="stylesheet">
+<style>
+  :root {
+    --page: #e9e2d0; --canvas: #fbf6e9; --ink: #26251e; --body: #4a463c; --cap: #7a7366;
+    --rule: #e7dfcb; --rule2: #d9cfb6; --brand: #4a2c0a; --teal: #0c4243; --hl: #e6ece4;
+    --ox: #7a1f2b; --high: #c2410c; --mid: #b7791f; --low: #1e4f8f; --work: #1e4f8f; --home: #d97706;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--page); font-family: Inter, system-ui, sans-serif; color: var(--ink); padding: 32px 16px 64px; }
+  h1 { font-family: Fraunces, serif; font-weight: 400; font-size: 28px; text-align: center; }
+  .intro { text-align: center; color: var(--body); font-size: 14px; margin: 8px auto 32px; max-width: 640px; line-height: 1.5; }
+  .grid { display: flex; flex-wrap: wrap; gap: 36px 28px; justify-content: center; }
+  .col { width: 360px; max-width: 100%; }
+  .col > h2 { font-family: Fraunces, serif; font-weight: 500; font-size: 22px; }
+  .col > p { font-size: 13px; color: var(--body); margin: 4px 0 12px; line-height: 1.45; min-height: 38px; }
+  .phone { background: var(--canvas); border-radius: 36px; border: 8px solid #1b1a16; height: 740px; overflow: hidden; position: relative; display: flex; flex-direction: column; }
+  .scroll { flex: 1; overflow: hidden; }
+  .nav { height: 64px; border-top: 1px solid var(--rule2); display: flex; align-items: center; justify-content: space-around; font-size: 11px; color: var(--cap); }
+  .nav b { color: var(--teal); }
+  .plus { width: 46px; height: 46px; border-radius: 12px; background: var(--brand); color: #fff; font-size: 26px; display: grid; place-items: center; }
+
+  /* đầu trang chung */
+  .head { padding: 22px 20px 10px; }
+  .lbl { font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--cap); }
+  .greet { font-family: Fraunces, serif; font-size: 16px; margin-top: 2px; }
+  .greet span { background: linear-gradient(transparent 55%, #f3d77a 55%); }
+  .sum { display: flex; align-items: center; gap: 12px; margin-top: 10px; }
+  .ring { width: 46px; height: 46px; border-radius: 50%; display: grid; place-items: center; font-family: Fraunces, serif; font-size: 14px;
+          background: conic-gradient(var(--teal) 0 30%, var(--rule) 30% 100%); position: relative; }
+  .ring::before { content: ""; position: absolute; inset: 5px; border-radius: 50%; background: var(--canvas); }
+  .ring i { position: relative; font-style: normal; }
+  .sum .big { font-family: Fraunces, serif; font-size: 19px; }
+  .sum .sub { font-size: 12px; color: var(--cap); }
+
+  /* hàng việc */
+  .row { display: flex; align-items: flex-start; gap: 11px; padding: 8px 14px 8px 20px; border-top: 1px solid var(--rule); position: relative; min-height: 46px; }
+  .row.hl { background: var(--hl); }
+  .row.hl::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: var(--teal); }
+  .ck { width: 20px; height: 20px; border-radius: 50%; border: 2px solid var(--cap); flex: none; margin-top: 1px; }
+  .ck.high { border-color: var(--high); } .ck.mid { border-color: var(--mid); } .ck.low { border-color: var(--low); }
+  .t { flex: 1; min-width: 0; font-size: 15px; font-weight: 500; line-height: 1.3; }
+  .m { font-size: 11.5px; color: var(--cap); font-weight: 500; margin-top: 2px; display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+  .m .star { color: var(--teal); font-weight: 600; } .m .late { color: var(--ox); font-weight: 600; }
+  .m .doing { border: 1px solid var(--rule2); border-radius: 99px; padding: 0 7px; color: var(--teal); font-weight: 600; }
+  .time { font-size: 13px; font-weight: 600; color: var(--body); font-variant-numeric: tabular-nums; padding-top: 1px; }
+  .time.late { color: var(--ox); }
+  .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+  .grip { color: var(--rule2); font-size: 14px; letter-spacing: -2px; padding-top: 1px; }
+  .area { display: flex; justify-content: space-between; align-items: baseline; padding: 16px 20px 8px; }
+  .area .n { font-family: Fraunces, serif; font-size: 20px; }
+  .area .c { font-size: 12px; color: var(--cap); } .area .c.late { color: var(--ox); font-weight: 600; }
+  .done { padding: 12px 20px; font-size: 13px; color: var(--cap); border-top: 1px solid var(--rule); }
+
+  /* A: nút chuyển */
+  .seg { margin: 6px 16px 4px; background: #efe7d4; border-radius: 10px; padding: 3px; display: flex; }
+  .seg div { flex: 1; text-align: center; font-size: 13px; font-weight: 500; padding: 8px 0; border-radius: 8px; color: var(--body); }
+  .seg .on { background: var(--canvas); color: var(--ink); font-weight: 600; box-shadow: 0 1px 3px rgb(0 0 0 / .12); }
+  .peek { margin: 12px 16px; padding: 10px 12px; border: 1px dashed var(--rule2); border-radius: 10px; font-size: 12.5px; color: var(--body); }
+
+  /* B: thẻ khu vực */
+  .card { margin: 10px 14px; border: 1px solid var(--rule2); border-radius: 14px; overflow: hidden; background: #fffcf3; }
+  .card .ch { display: flex; align-items: center; gap: 10px; padding: 12px 14px; }
+  .card .ch .n { font-family: Fraunces, serif; font-size: 19px; flex: 1; }
+  .mini { width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; font-size: 10.5px; font-weight: 600; position: relative; }
+  .mini::before { content: ""; position: absolute; inset: 4px; border-radius: 50%; background: #fffcf3; }
+  .mini i { position: relative; font-style: normal; }
+  .card .row { padding-left: 14px; padding-right: 8px; }
+  .card .row.hl::before { width: 3px; }
+  .card .more { font-size: 12px; color: var(--cap); padding: 0 14px 12px; }
+  .chev { color: var(--cap); font-size: 13px; }
+
+  /* C: theo mức gấp */
+  .bucket { display: flex; justify-content: space-between; align-items: baseline; padding: 16px 20px 8px; }
+  .bucket .n { font-family: Fraunces, serif; font-size: 20px; }
+  .bucket .n { white-space: nowrap; } .bucket .c { white-space: nowrap; } .bucket .n small { font-family: Inter, sans-serif; font-size: 11px; color: var(--cap); margin-left: 6px; }
+  .tag { font-size: 11px; border-radius: 99px; padding: 0 7px; font-weight: 600; }
+  .tag.w { background: #e3ebf5; color: var(--work); } .tag.h { background: #fbeedb; color: #9a5205; }
+  .legend { display: flex; gap: 12px; padding: 4px 20px 0; font-size: 12px; color: var(--cap); align-items: center; }
+
+  /* D: ma trận */
+  .matrix { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; padding: 6px 12px; }
+  .axis { display: grid; grid-template-columns: 1fr 1fr; padding: 4px 12px 0; font-size: 10.5px; font-weight: 600; color: var(--cap); text-transform: uppercase; letter-spacing: .06em; text-align: center; }
+  .q { border-radius: 12px; padding: 10px 10px 8px; min-height: 196px; border: 1px solid var(--rule2); }
+  .q h3 { font-family: Fraunces, serif; font-weight: 500; font-size: 15px; }
+  .q .h { font-size: 10.5px; color: var(--cap); margin-bottom: 6px; }
+  .q.q1 { background: #f6e3df; border-color: #e8c4bc; } .q.q2 { background: #e2ecea; border-color: #bfd6d2; }
+  .q.q3 { background: #f6efd9; border-color: #e6d7a8; } .q.q4 { background: #efece5; }
+  .qi { display: flex; gap: 6px; align-items: flex-start; font-size: 12.5px; font-weight: 500; line-height: 1.3; padding: 5px 0; border-top: 1px solid rgb(0 0 0 / .06); }
+  .qi .ck { width: 14px; height: 14px; border-width: 1.5px; }
+  .qi small { display: block; font-size: 10.5px; color: var(--cap); font-weight: 500; }
+  .m2 { display: grid; grid-template-columns: 16px 1fr 1fr; grid-template-rows: auto 1fr 1fr; gap: 8px; padding: 6px 12px 0 4px; }
+  .m2 .yl { writing-mode: vertical-rl; transform: rotate(180deg); font-size: 10.5px; font-weight: 600; color: var(--cap); text-transform: uppercase; letter-spacing: .06em; text-align: center; }
+  .m2 .xl { font-size: 10.5px; font-weight: 600; color: var(--cap); text-transform: uppercase; letter-spacing: .06em; text-align: center; }
+  .m2 .q { min-height: 210px; }
+  .q.big-u { background: #f6e3df; border-color: #e8c4bc; } .q.small-u { background: #f6efd9; border-color: #e6d7a8; }
+  .q.big-n { background: #e2ecea; border-color: #bfd6d2; } .q.small-n { background: #efece5; }
+  .viewtog { display: flex; gap: 6px; padding: 4px 16px 0; font-size: 12px; }
+  .viewtog span { border: 1px solid var(--rule2); border-radius: 99px; padding: 3px 10px; color: var(--body); }
+  .viewtog .on { background: var(--teal); border-color: var(--teal); color: #fff; font-weight: 600; }
+  .note { font-size: 12px; color: var(--cap); padding: 8px 16px; line-height: 1.4; }
+</style>
+</head>
+<body>
+<h1>Trang Hôm nay — 4 cách bố cục</h1>
+<p class="intro">Cùng một bộ việc mẫu (4 việc công ty, 3 việc cá nhân), vẽ theo 4 cách. Dòng việc tô teal nhạt + vạch trái = <b>Nên làm trước</b>. Chỉ là hình minh hoạ, chưa bấm được.</p>
+
+<div class="grid">
+
+<!-- ===================== A ===================== -->
+<div class="col">
+  <h2>A · Nút chuyển Công việc / Cá nhân</h2>
+  <p>Ở công ty bấm “Công việc”, về nhà bấm “Cá nhân”: chỉ thấy đúng phần đang cần. App nhớ lựa chọn riêng cho từng máy.</p>
+  <div class="phone"><div class="scroll">
+    <div class="head">
+      <div class="lbl">Thứ ba, 03/11</div>
+      <div class="greet">Chào <span>buổi sáng</span>, Demo</div>
+      <div class="sum"><div class="ring"><i>2/7</i></div><div><div class="big">Còn 4 việc công ty</div><div class="sub">🔥 3 ngày liên tiếp</div></div></div>
+    </div>
+    <div class="seg"><div>Tất cả</div><div class="on">💼 Công việc</div><div>🏠 Cá nhân</div></div>
+    <div style="height:8px"></div>
+    <div class="row hl"><div class="ck high"></div><div class="t">Gửi báo cáo doanh thu tháng 9<div class="m"><span class="star">★ Nên làm trước</span><span class="late">Hôm qua 17:00</span></div></div><span class="grip">⋮⋮</span></div>
+    <div class="row"><div class="ck mid"></div><div class="t">Họp team sprint planning<div class="m"><span class="doing">Đang làm</span></div></div><span class="time">09:30</span><span class="grip">⋮⋮</span></div>
+    <div class="row"><div class="ck mid"></div><div class="t">Hoàn thiện slide trình bày<div class="m">▸ 1/3 <span><span class="dot" style="background:var(--low)"></span> Báo cáo Q4</span></div></div><span class="time">15:00</span><span class="grip">⋮⋮</span></div>
+    <div class="row"><div class="ck"></div><div class="t">Trả lời email khách hàng</div><span class="grip">⋮⋮</span></div>
+    <div class="peek">🏠 Cá nhân còn <b>3 việc</b> (1 có giờ 20:00) · bấm để xem</div>
+    <div class="done">Đã xong hôm nay (2) ›</div>
+  </div>
+  <div class="nav"><b>Hôm nay</b><span>Sắp tới</span><div class="plus">+</div><span>Dự án</span><span>Cài đặt</span></div></div>
+</div>
+
+<!-- ===================== B ===================== -->
+<div class="col">
+  <h2>B · Mỗi khu vực một thẻ</h2>
+  <p>Mỗi khu vực là một thẻ có vòng tiến độ nhỏ ở góc. Bấm tiêu đề để thu gọn/mở; thẻ thu gọn chỉ hiện một dòng tóm tắt.</p>
+  <div class="phone"><div class="scroll">
+    <div class="head">
+      <div class="lbl">Thứ ba, 03/11</div>
+      <div class="greet">Chào <span>buổi sáng</span>, Demo</div>
+      <div class="sum"><div class="ring"><i>2/7</i></div><div><div class="big">Còn 7 việc</div><div class="sub">🔥 3 ngày liên tiếp</div></div></div>
+    </div>
+    <div class="card">
+      <div class="ch"><span style="font-size:18px">💼</span><span class="n">Công việc</span>
+        <div class="mini" style="background:conic-gradient(var(--teal) 0 33%, var(--rule) 33% 100%)"><i>1/4</i></div><span class="chev">▾</span></div>
+      <div class="row hl"><div class="ck high"></div><div class="t">Gửi báo cáo doanh thu tháng 9<div class="m"><span class="star">★ Nên làm trước</span><span class="late">Hôm qua 17:00</span></div></div><span class="grip">⋮⋮</span></div>
+      <div class="row"><div class="ck mid"></div><div class="t">Họp team sprint planning<div class="m"><span class="doing">Đang làm</span></div></div><span class="time">09:30</span><span class="grip">⋮⋮</span></div>
+      <div class="row"><div class="ck mid"></div><div class="t">Hoàn thiện slide trình bày<div class="m">▸ 1/3</div></div><span class="time">15:00</span><span class="grip">⋮⋮</span></div>
+      <div class="row"><div class="ck"></div><div class="t">Trả lời email khách hàng</div><span class="grip">⋮⋮</span></div>
+    </div>
+    <div class="card">
+      <div class="ch"><span style="font-size:18px">🏠</span><span class="n">Cá nhân</span>
+        <div class="mini" style="background:conic-gradient(var(--teal) 0 25%, var(--rule) 25% 100%)"><i>1/4</i></div><span class="chev">▸</span></div>
+      <div class="more">3 việc · gần nhất: Đóng tiền điện 20:00</div>
+    </div>
+    <div class="done" style="border:0">Đã xong hôm nay (2) ›</div>
+  </div>
+  <div class="nav"><b>Hôm nay</b><span>Sắp tới</span><div class="plus">+</div><span>Dự án</span><span>Cài đặt</span></div></div>
+</div>
+
+<!-- ===================== C ===================== -->
+<div class="col">
+  <h2>C · Chia theo mức gấp</h2>
+  <p>Không chia công ty / nhà nữa mà chia theo lúc nào phải làm. Nhãn nhỏ màu xanh = công việc, màu cam = cá nhân.</p>
+  <div class="phone"><div class="scroll">
+    <div class="head">
+      <div class="lbl">Thứ ba, 03/11</div>
+      <div class="greet">Chào <span>buổi sáng</span>, Demo</div>
+      <div class="sum"><div class="ring"><i>2/7</i></div><div><div class="big">Còn 7 việc</div><div class="sub">🔥 3 ngày liên tiếp</div></div></div>
+    </div>
+    <div class="bucket"><span class="n">🔥 Làm ngay<small>quá hạn, 2 giờ tới</small></span><span class="area"><span class="c late">2 việc</span></span></div>
+    <div class="row hl"><div class="ck high"></div><div class="t">Gửi báo cáo doanh thu tháng 9<div class="m"><span class="tag w">Công việc</span><span class="star">★ Nên làm trước</span><span class="late">Hôm qua</span></div></div><span class="grip">⋮⋮</span></div>
+    <div class="row"><div class="ck mid"></div><div class="t">Họp team sprint planning<div class="m"><span class="tag w">Công việc</span><span class="doing">Đang làm</span></div></div><span class="time">09:30</span><span class="grip">⋮⋮</span></div>
+    <div class="bucket"><span class="n">☀️ Trong ngày</span><span class="area"><span class="c">3 việc</span></span></div>
+    <div class="row"><div class="ck mid"></div><div class="t">Hoàn thiện slide trình bày<div class="m"><span class="tag w">Công việc</span>▸ 1/3</div></div><span class="time">15:00</span><span class="grip">⋮⋮</span></div>
+    <div class="row"><div class="ck low"></div><div class="t">Đóng tiền điện<div class="m"><span class="tag h">Cá nhân</span></div></div><span class="time">20:00</span><span class="grip">⋮⋮</span></div>
+    <div class="row"><div class="ck"></div><div class="t">Trả lời email khách hàng<div class="m"><span class="tag w">Công việc</span></div></div><span class="grip">⋮⋮</span></div>
+    <div class="bucket"><span class="n">🌙 Nếu còn thời gian</span><span class="area"><span class="c">2 việc</span></span></div>
+    <div class="row"><div class="ck low"></div><div class="t">Mua quà sinh nhật mẹ<div class="m"><span class="tag h">Cá nhân</span></div></div><span class="grip">⋮⋮</span></div>
+    <div class="row"><div class="ck"></div><div class="t">Đi tập gym<div class="m"><span class="tag h">Cá nhân</span></div></div><span class="grip">⋮⋮</span></div>
+  </div>
+  <div class="nav"><b>Hôm nay</b><span>Sắp tới</span><div class="plus">+</div><span>Dự án</span><span>Cài đặt</span></div></div>
+</div>
+
+<!-- ===================== D ===================== -->
+<div class="col">
+  <h2>D · Ma trận 4 ô (gấp × quan trọng)</h2>
+  <p>Mỗi việc nằm ở một ô theo dấu Khẩn cấp / Quan trọng. Nhìn tổng thể rất nhanh, nhưng trên iPhone mỗi ô khá chật, tên dài bị xuống dòng.</p>
+  <div class="phone"><div class="scroll">
+    <div class="head">
+      <div class="lbl">Thứ ba, 03/11</div>
+      <div class="greet">Chào <span>buổi sáng</span>, Demo</div>
+      <div class="sum"><div class="ring"><i>2/7</i></div><div><div class="big">Còn 7 việc</div><div class="sub">🔥 3 ngày liên tiếp</div></div></div>
+    </div>
+    <div class="axis"><span>Khẩn cấp</span><span>Không khẩn cấp</span></div>
+    <div class="matrix">
+      <div class="q q1"><h3>Làm ngay</h3><div class="h">gấp + quan trọng</div>
+        <div class="qi"><div class="ck high"></div><div>★ Gửi báo cáo doanh thu tháng 9<small style="color:var(--ox)">Hôm qua</small></div></div>
+        <div class="qi"><div class="ck mid"></div><div>Họp team sprint<small>09:30 · 💼</small></div></div>
+      </div>
+      <div class="q q2"><h3>Lên lịch</h3><div class="h">quan trọng, chưa gấp</div>
+        <div class="qi"><div class="ck mid"></div><div>Hoàn thiện slide<small>15:00 · 💼</small></div></div>
+        <div class="qi"><div class="ck low"></div><div>Mua quà sinh nhật mẹ<small>🏠</small></div></div>
+      </div>
+      <div class="q q3"><h3>Làm nhanh</h3><div class="h">gấp, ít quan trọng</div>
+        <div class="qi"><div class="ck low"></div><div>Đóng tiền điện<small>20:00 · 🏠</small></div></div>
+        <div class="qi"><div class="ck"></div><div>Trả lời email KH<small>💼</small></div></div>
+      </div>
+      <div class="q q4"><h3>Để sau</h3><div class="h">không gấp, không quan trọng</div>
+        <div class="qi"><div class="ck"></div><div>Đi tập gym<small>🏠</small></div></div>
+      </div>
+    </div>
+    <div class="note">Kéo việc giữa các ô để đổi mức gấp / quan trọng.</div>
+  </div>
+  <div class="nav"><b>Hôm nay</b><span>Sắp tới</span><div class="plus">+</div><span>Dự án</span><span>Cài đặt</span></div></div>
+</div>
+
+<!-- ===================== D2 ===================== -->
+<div class="col">
+  <h2>D2 · Gấp × Tốn công (ý của bạn)</h2>
+  <p>Ngang: <b>trái = chưa gấp, phải = gấp</b>. Dọc: <b>trên = tốn nhiều công, dưới = ít công</b>. Ô dưới-phải (gấp + nhẹ) là chỗ “làm luôn cho xong”.</p>
+  <div class="phone"><div class="scroll">
+    <div class="head">
+      <div class="lbl">Thứ ba, 03/11</div>
+      <div class="greet">Chào <span>buổi sáng</span>, Demo</div>
+      <div class="sum"><div class="ring"><i>2/7</i></div><div><div class="big">Còn 7 việc</div><div class="sub">🔥 3 ngày liên tiếp</div></div></div>
+    </div>
+    <div class="viewtog"><span>☰ Danh sách</span><span class="on">▦ Ma trận</span></div>
+    <div class="m2">
+      <span></span><span class="xl">Chưa gấp</span><span class="xl">Gấp →</span>
+      <span class="yl">↑ Tốn nhiều công</span>
+      <div class="q big-n"><h3>Lên kế hoạch</h3><div class="h">nặng, chưa gấp · chia nhỏ ra</div>
+        <div class="qi"><div class="ck mid"></div><div>Hoàn thiện slide<small>15:00 · 💼 · ▸ 1/3</small></div></div>
+        <div class="qi"><div class="ck low"></div><div>Mua quà sinh nhật mẹ<small>🏠</small></div></div>
+      </div>
+      <div class="q big-u"><h3>Bắt tay ngay</h3><div class="h">nặng + gấp · dành thời gian</div>
+        <div class="qi"><div class="ck high"></div><div>★ Gửi báo cáo doanh thu tháng 9<small style="color:var(--ox)">Hôm qua · 💼</small></div></div>
+        <div class="qi"><div class="ck mid"></div><div>Họp team sprint<small>09:30 · 💼</small></div></div>
+      </div>
+      <span class="yl">Ít công ↓</span>
+      <div class="q small-n"><h3>Lúc rảnh</h3><div class="h">nhẹ, chưa gấp</div>
+        <div class="qi"><div class="ck"></div><div>Đi tập gym<small>🏠</small></div></div>
+      </div>
+      <div class="q small-u"><h3>Làm luôn</h3><div class="h">nhẹ + gấp · xong trong 15'</div>
+        <div class="qi"><div class="ck low"></div><div>Đóng tiền điện<small>20:00 · 🏠</small></div></div>
+        <div class="qi"><div class="ck"></div><div>Trả lời email KH<small>💼</small></div></div>
+      </div>
+    </div>
+    <div class="note">Kéo việc sang ô khác = đổi Gấp / Tốn công. Bấm 1 việc vẫn mở bảng chi tiết như cũ.</div>
+  </div>
+  <div class="nav"><b>Hôm nay</b><span>Sắp tới</span><div class="plus">+</div><span>Dự án</span><span>Cài đặt</span></div></div>
+</div>
+
+</div>
+</body>
+</html>

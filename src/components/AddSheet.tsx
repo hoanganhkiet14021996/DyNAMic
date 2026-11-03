@@ -86,6 +86,8 @@ function AddBody() {
   const [areaId, setAreaId] = useState<string | null>(defaults.area)
   const [projectId, setProjectId] = useState<string | null>(defaults.project)
   const [priority, setPriority] = useState(0)
+  const [urgent, setUrgent] = useState(false)
+  const [heavy, setHeavy] = useState(false)
   const [more, setMore] = useState(false)
   const [time, setTime] = useState('')
   const [notes, setNotes] = useState('')
@@ -119,6 +121,9 @@ function AddBody() {
         area_id: areaId,
         project_id: projectId,
         notes: notes.trim() || null,
+        // chỉ gửi khi được chọn (cột is_heavy cần chạy SQL mới có)
+        ...(urgent && { is_urgent: true }),
+        ...(heavy && { is_heavy: true }),
         ...fromInputs(date, time),
       })
       .then(() => true)
@@ -132,6 +137,8 @@ function AddBody() {
     setNotes('')
     setTime('')
     setPriority(0)
+    setUrgent(false)
+    setHeavy(false)
     inputRef.current?.focus()
     toast(`Đã thêm “${text}”`, { action: { label: 'Hoàn tác', onClick: () => del.mutate(id) } })
 
@@ -208,6 +215,12 @@ function AddBody() {
         >
           ⚑ {PRIORITY_CHIP[priority].label}
         </button>
+        <Chip selected={urgent} onClick={() => setUrgent(!urgent)}>
+          🔥 Gấp
+        </Chip>
+        <Chip selected={heavy} onClick={() => setHeavy(!heavy)}>
+          🏋️ Tốn công
+        </Chip>
       </div>
 
       <button
